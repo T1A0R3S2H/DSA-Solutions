@@ -1,7 +1,17 @@
 ## Method 1
 Can be done using one loop only, first sort the array and check if 
 ```bash
-arr[i]==arr[i+1]
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i < nums.size() - 1; i++) {
+            if(nums[i] == nums[i + 1])
+                return true;
+        }
+        return false;
+    }
+};
 ```
 Here, the time complexity is O(n^2) and the space complexity is O(1)
 
