@@ -1,4 +1,4 @@
-## Method1
+## Method 1
 Here's how the code works:
 
 - We initialize two pointers, left and right, pointing to the start and end of the numbers array, respectively.
