@@ -1,4 +1,6 @@
 ## Sort left array, sort right array then merge both the sorted arraya baar baar recursively
+- [Video Explanation](https://www.youtube.com/watch?v=cdHEpbBVjRM&list=PLDzeHZWIZsTryvtXdMr6rPh4IDexB5NIA&index=38&pp=iAQB)
+
 ```
 class Solution {
 public:
