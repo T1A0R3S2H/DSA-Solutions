@@ -1,7 +1,7 @@
 # Method 1
 The algorithm uses the two-pointer approach, where it first computes the maximum height from the left side (leftMax) and the right side (rightMax) for each index. It then iterates through the array, calculating the trapped water at each index as the minimum of leftMax[i] and rightMax[i] minus the height of the bar at that index. If the trapped water is positive, it is added to the total area. The time complexity of this solution is O(n), where n is the length of the input array, as it iterates through the array three times. The space complexity is O(n) due to the use of two auxiliary arrays to store the maximum heights from the left and right sides.
 ##
-```
+```bash
 class Solution {
 public:
     int trap(vector<int>& height) {
