@@ -18,7 +18,7 @@ public:
 
 The Kadane's algorithm approach for finding the maximum subarray sum is based on dynamically updating the maximum sum ending at each index of the array. We initialize two variables, `maxim` and `maxi`, with the first element of the array. We iterate through the array starting from the second element. At each step, we update `maxim` to be the maximum of the current element and the sum of the current element and the maximum sum ending at the previous index. Then, we update `maxi` to be the maximum of `maxi` and `maxim`, ensuring it captures the maximum sum encountered so far. By continuing this process for each element of the array, we eventually obtain the maximum sum of a subarray. This approach has a time complexity of O(n), where n is the size of the array, and a space complexity of O(1), as we only use a constant amount of extra space for storing the variables `maxim` and `maxi`.
 
-## Method 2 (Striver's Optimal Approach)
+## Method 2 (Striver's Optimal Approach, Kadane's Algorithm)
 ```bash
 
 #include <bits/stdc++.h>
