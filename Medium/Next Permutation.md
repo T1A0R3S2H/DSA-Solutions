@@ -43,3 +43,8 @@ public:
     }
 };
 ```
+
+
+## Method 2 (Using in-built function)
+![image](https://github.com/T1A0R3S2H/Leetcode-Progess/assets/123285559/0b0f0df3-1bfa-4628-855e-98c67361bdf2)
+
