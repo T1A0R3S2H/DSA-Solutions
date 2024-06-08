@@ -61,34 +61,33 @@ public:
 
 ## Method 3 (optimal approach/ formula for 2D to 1D index)
 ```bash
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
 
+        // Early return if target is out of range
+        if (target < matrix[0][0] || target > matrix[n-1][m-1])
+            return false;
 
+        int low = 0, high = n * m - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
 
-#include <bits/stdc++.h>
-using namespace std;
+            // imagine the coversion of 2D to 1D and by below formulae, find the
+            // corresponding index of 1D array
 
-bool searchMatrix(vector<vector<int>>& matrix, int target) {
-    int n = matrix.size();
-    int m = matrix[0].size();
-
-    //apply binary search:
-    int low = 0, high = n * m - 1;
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        int row = mid / m, col = mid % m;
-        if (matrix[row][col] == target) return true;
-        else if (matrix[row][col] < target) low = mid + 1;
-        else high = mid - 1;
+            int row = mid / m, col = mid % m;
+            if (matrix[row][col] == target)
+                return true;
+            else if (matrix[row][col] < target)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        return false;
     }
-    return false;
-}
-
-int main()
-{
-    vector<vector<int>> matrix = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
-    searchMatrix(matrix, 8) == true ? cout << "true\n" : cout << "false\n";
-}
-
-
+};
 ```
 ![image](https://github.com/T1A0R3S2H/Leetcode-Progess/assets/123285559/307de51a-e180-4a65-993c-8f6425531d2f)
