@@ -59,7 +59,7 @@ public:
 };
 ```
 
-## Method 3 (optimal approach)
+## Method 3 (optimal approach/ formula for 2D to 1D index)
 ```bash
 
 
