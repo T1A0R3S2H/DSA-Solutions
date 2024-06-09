@@ -41,7 +41,7 @@ private:
             return;
         }
 
-        // visited matrix
+        // visited wala matrix
         m[i][j] = 0;
         
         if (i > 0 && m[i - 1][j] == 1) {
