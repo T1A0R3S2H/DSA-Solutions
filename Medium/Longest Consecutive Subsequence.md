@@ -1,3 +1,4 @@
+## Method 1
 # Done in O(n^2) although was asked to do in O(n)
 ## Step 1: Convert Input Array to Hash Set
 Hash Set Creation: The input array nums is converted into an unordered_set, named ```numSet```. An unordered_set is a container that stores unique elements in no particular order. It allows for fast insertion, deletion, and lookup operations, which are crucial for optimizing the solution.
@@ -53,4 +54,33 @@ public:
     }
 };
 
+```
+
+
+## Method 2 (O(n))
+```bash
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        
+        sort(nums.begin(), nums.end());
+        
+        int longestStreak = 1;
+        int currentStreak = 1;
+        
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] != nums[i - 1]) { // Skip duplicates
+                if (nums[i] == nums[i - 1] + 1) {
+                    currentStreak++;
+                } else {
+                    longestStreak = max(longestStreak, currentStreak);
+                    currentStreak = 1;
+                }
+            }
+        }
+        
+        return max(longestStreak, currentStreak);
+    }
+};
 ```
