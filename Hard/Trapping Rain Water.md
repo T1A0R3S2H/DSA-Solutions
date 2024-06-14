@@ -12,7 +12,7 @@ public:
         vector<int> leftMax(n), rightMax(n);
 
         // maximum height from the left side
-        leftMax[0] = height[0];
+        leftMax[0]=height[0];
         for (int i = 1; i < n; i++) {
             leftMax[i] = max(leftMax[i - 1], height[i]);
         }
