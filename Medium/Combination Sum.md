@@ -1,3 +1,5 @@
+## Method 1 (Pick/ Not pick)
+[Reference Video](https://www.youtube.com/watch?v=OyZFFqQtu98&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&index=50)
 ```bash
 class Solution {
 public:
