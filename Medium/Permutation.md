@@ -1,4 +1,4 @@
-## Method 1
+## Method 1 (Swapping)
 This approach is a backtracking algorithm to generate all possible permutations of a given list of integers. Let's break down the algorithm step-by-step using the provided code and an example.
 
 ### Code Explanation
