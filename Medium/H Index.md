@@ -1,4 +1,4 @@
-# H-Index Calculation Explanation
+# Method 1 (unordered map)
 
 ## Understanding the H-Index
 The H-index is a metric used to measure the productivity and citation impact of a researcher. It is defined as the maximum value of \( h \) such that the given author has published \( h \) papers that have each been cited at least \( h \) times.
@@ -61,4 +61,65 @@ public:
         return 0;
     }
 };
+```
+
+# Method 2 (brute force)
+The H-index is a metric that measures the impact and productivity of a researcher based on their number of publications and the citations each publication receives. The goal is to find the maximum value \( h \) such that the researcher has at least \( h \) papers that have been cited at least \( h \) times.
+
+## Problem Statement
+## Steps to Calculate H-Index
+
+1. **Sort the Citations Array:**
+   - Sort the array of citations in ascending order.
+
+2. **Iterate Through the Sorted Array:**
+   - Initialize `n` as the size of the citations array.
+   - Iterate through the sorted array and check the condition \( n - i \leq \text{citations}[i] \):
+     - If the condition is true, return \( n - i \).
+     - If the loop completes without finding such a value, return 0.
+
+## Example
+
+Consider the following example to illustrate the H-index calculation:
+
+**Input:** `citations = [3, 0, 6, 1, 5]`
+
+**Steps:**
+1. **Sort the citations array:** `citations = [0, 1, 3, 5, 6]`
+2. **Initialize `n`** as the size of the citations array (`n = 5`).
+3. **Iterate through the sorted array:**
+   - For \( i = 0 \): \( 5 - 0 = 5 \leq 0 \) (False)
+   - For \( i = 1 \): \( 5 - 1 = 4 \leq 1 \) (False)
+   - For \( i = 2 \): \( 5 - 2 = 3 \leq 3 \) (True)
+
+   When the condition \( n - i \leq \text{citations}[i] \) holds true, return \( n - i \). Here, \( n - i = 3 \), so the H-index is 3.
+
+## Key Points
+
+- **Sorting the Array:** Sorting ensures that we can compare the number of citations each paper has with its position in the sorted list.
+- **Condition Check:** The loop checks the condition \( n - i \leq \text{citations}[i] \) to find the maximum \( h \) such that there are \( h \) papers with at least \( h \) citations.
+- **Efficiency:** This approach ensures that the algorithm runs efficiently and correctly identifies the H-index.
+
+### Code
+```cpp
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        int n = citations.size();
+        sort(citations.begin(), citations.end());
+
+        for (int i = 0; i < n; ++i) {
+            if (n - i <= citations[i]) {
+                return n - i;
+            }
+        }
+        return 0;
+    }
+};
+
 ```
