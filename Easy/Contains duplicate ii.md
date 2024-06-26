@@ -1,5 +1,5 @@
 
-## Problem Description:
+## Method 1 (brute force)
 
 Given an integer array `nums` and an integer `k`, we need to determine if there exist two distinct indices `i` and `j` such that:
 
@@ -51,3 +51,31 @@ public:
 ```
 
 This approach efficiently checks for nearby duplicates within the array by iterating through each pair of indices and ensuring that the distance condition `abs(i - j) <= k` is respected.
+
+
+## Method 2 (hash map)
+```cpp
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;  // Define an unordered_map to store number -> index mappings
+        int n = nums.size();  // Get the size of the input array nums
+        
+        // Iterate through each element of nums
+        for(int i = 0; i < n; i++) {
+            // Check if nums[i] already exists in the map
+            if(mp.count(nums[i])) {
+                // If nums[i] exists in the map, check the distance condition
+                if(abs(i - mp[nums[i]]) <= k) {
+                    return true;  // Return true if the condition abs(i - mp[nums[i]]) <= k is satisfied
+                }
+            }
+            // Update the map with the current index of nums[i]
+            mp[nums[i]] = i;
+        }
+        
+        return false;  // Return false if no such pair is found after iterating through the array
+    }
+};
+
+```
