@@ -37,6 +37,8 @@ public:
 };
 
 ```
+![image](https://github.com/T1A0R3S2H/Leetcode-Progess/assets/123285559/8137d469-760b-49a8-be38-02d46399b953)
+
 ## Detailed Explanation
 In the given approach, both passes (left to right and right to left) contribute to ensuring that both conditions of the candy distribution problem are met:
 
