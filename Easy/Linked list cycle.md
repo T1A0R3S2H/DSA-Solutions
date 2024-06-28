@@ -49,3 +49,22 @@ public:
 ```
 - **Time Complexity:** O(n), where n is the number of nodes in the list.
 - **Space Complexity:** O(1), as it only uses two pointers regardless of the list size.
+
+# Method 2 (unordered map)
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        unordered_map<ListNode*, bool> visited;
+        ListNode* current = head;
+        while (current != nullptr) {
+            if (visited.count(current)) {
+                return true; // cycle detected
+            }
+            visited[current] = true;
+            current = current->next;
+        }
+        return false; // no cycle
+    }
+};
+```
