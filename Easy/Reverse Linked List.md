@@ -2,8 +2,11 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
+
+        //declaration
         ListNode* prev = nullptr;
         ListNode* curr = head;
+
         while (curr != nullptr) {
             ListNode* fwd = curr->next; // save the next node
             curr->next = prev;          // reverse the current node's pointer
