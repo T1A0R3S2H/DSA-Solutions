@@ -1,5 +1,5 @@
 
-# Method 1 (Floyd's Cycle-Finding Algorithm (Tortoise and Hare Algorithm))
+# Method 1 (Floyd's Cycle Finding Algorithm (Tortoise and Hare Algorithm))
 
 This code implements the Floyd's Cycle-Finding Algorithm, also known as the "tortoise and hare" algorithm. Here's a more detailed explanation of each part:
 
