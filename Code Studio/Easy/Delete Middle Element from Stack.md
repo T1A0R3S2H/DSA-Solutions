@@ -80,3 +80,32 @@ Let's consider `[1, 2, 3, 4]` (even number of elements)
 Final result: `inputStack = [1, 2, 4]`
 
 The element just before the center (3) has been successfully removed.
+
+
+# Method 2 (recursion)
+```cpp
+
+void solve(stack<int>&inputStack, int count, int size) {
+    //base case
+    if(count == size/2) {
+        inputStack.pop();
+        return ;
+    }
+    
+    int num = inputStack.top();
+    inputStack.pop();
+    
+	//RECURSIVE CALL
+    solve(inputStack, count+1, size);
+    
+    inputStack.push(num);
+    
+}
+
+void deleteMiddle(stack<int>&inputStack, int N){
+	
+  	int count = 0;
+    solve(inputStack, count, N);
+   
+}
+```
