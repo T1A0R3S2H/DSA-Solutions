@@ -1,6 +1,6 @@
 # Method 1 (brute force)
 
-This solution finds the maximum possible sum of heights in a mountain-shaped tower arrangement, where you can remove bricks but not add them.
+This particular solution finds the maximum possible sum of heights in a mountain-shaped tower arrangement, where you can remove bricks but not add them.
 
 ## Code
 ```cpp
