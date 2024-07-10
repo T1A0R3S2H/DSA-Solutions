@@ -1,4 +1,4 @@
-## Method 1 (brute force)
+## Method 1 (Brute Force)
 celeb wali poori row me 0s hone chahiye bas aur celeb wale column me diagonal ko chhodke baaki sab 1
 ```cpp
 class Solution 
