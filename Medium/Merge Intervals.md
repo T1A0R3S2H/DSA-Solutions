@@ -1,5 +1,5 @@
 ## Method 1
-```bash
+```cpp
 int n = arr.size(); // size of the array
 
     //sort the given intervals:
