@@ -1,5 +1,6 @@
 
 ![image](https://github.com/user-attachments/assets/0322074a-7f0e-4b8c-959b-9f7f1a5d0def)
+## All push, pop, isEmpty saare O(1) constant time me implement ho jayenge
 ```cpp
 class Queue {
     
