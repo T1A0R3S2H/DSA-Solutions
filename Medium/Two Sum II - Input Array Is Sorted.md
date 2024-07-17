@@ -53,7 +53,7 @@ Since the problem statement guarantees that there is exactly one solution, we do
 This solution has a time complexity of O(n^2), where n is the length of the numbers array, since we are using nested loops to check all pairs of indices. The space complexity is O(1) since we are using constant extra space for the stack and the result vector.
 Note that this solution using a stack is less efficient than the two-pointer solution we discussed earlier, which has a time complexity of O(n). However, if you specifically need to use a stack-based approach, this implementation will work.
 ##
-```
+```cpp
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
