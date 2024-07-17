@@ -1,5 +1,5 @@
 ## Method 1 (binary search)
-```bash
+```cpp
 
 
 
@@ -43,7 +43,7 @@ int main()
 ```
 
 ## Method 2 (linear search)
-```bash
+```cpp
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
@@ -60,7 +60,7 @@ public:
 ```
 
 ## Method 3 (optimal approach/ formula for 2D to 1D index)
-```bash
+```cpp
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
