@@ -13,7 +13,7 @@ Since the problem statement **guarantees** that there is exactly one solution, w
 ##
 **This solution has a time complexity of O(n), where n is the length of the numbers array, since we only need to iterate through the array once in the worst case. The space complexity is O(1) since we are using constant extra space, as required by the problem statement.**
 ##
-```
+```cpp
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
