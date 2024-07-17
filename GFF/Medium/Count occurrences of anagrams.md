@@ -1,61 +1,40 @@
 ```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-int countOccurance(string s, string p){
-    unordered_map<char, int> mp;
+int search(string pat, string txt) {
+    unordered_map<char,int> freq;
     int ans = 0;
     
-    //storing the occ. of string p in the map
-    for (auto &x : p){
-        mp[x]++;
+    for (auto& x : pat) {
+        freq[x]++;
     }
-
-    int count = mp.size();
-    int k = p.size();
-    int i=0, j=0;
-
-    while (j < s.size()){
-        //calculation part
-        if (mp.find(s[j]) != mp.end()){
-            mp[s[j]]--;
-            if (mp[s[j]] == 0){
+    
+    int count = freq.size();
+    int k = pat.size();
+    int i = 0, j = 0;
+    
+    while (j < txt.size()) {
+        if (freq.find(txt[j]) != freq.end()) {
+            freq[txt[j]]--;
+            if (freq[txt[j]] == 0) {
                 count--;
             }
         }
-
-        //window length not achived yet
-        if (j-i+1 < k){
+        
+        if (j - i + 1 < k) {
             j++;
-        }
-
-        //window length achived, find ans and slide the window
-        else if (j-i+1 == k){
-            //finding the ans
-            if (count == 0){
+        } else if (j - i + 1 == k) {
+            if (count == 0) {
                 ans++;
             }
-            if (mp.find(s[i]) != mp.end()){
-                mp[s[i]]++;
-                if (mp[s[i]] == 1){
-                    count++; 
+            if (freq.find(txt[i]) != freq.end()) {
+                freq[txt[i]]++;
+                if (freq[txt[i]] == 1) {
+                    count++;
                 }
             }
-
-            //slide the window
             i++;
             j++;
         }
     }
     return ans;
-}
-
-int main(){
-    string s, p;
-    cin >> s;
-    cin >> p;
-
-    cout << countOccurance(s, p) << "\n";
-    return 0;
 }
 ```
