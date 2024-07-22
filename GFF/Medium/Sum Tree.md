@@ -101,3 +101,97 @@ private:
 - **Space Complexity:** `O(N)` due to the space required for the queue and recursive call stack.
 
 This approach is straightforward but can be optimized. For a more efficient solution, you might consider a different method that combines the sum calculation and validation in a single traversal.
+
+
+## Example
+Let's break down the dry run of the Sum Tree algorithm using the provided example with an animated-like step-by-step explanation. Here’s how the process would look:
+
+### Tree Structure
+
+```
+        10
+       /  \
+      20   30
+     /  \
+    10   10
+```
+
+### Initial Call
+
+1. **Start:**
+   - The function `isSumTree(root)` is called with the root node (`10`).
+
+### Step 1: Calculate Left and Right Subtree Sums
+
+2. **Calculate Sum of Left Subtree:**
+   - We call `sum(root->left)`, where `root->left` is `20`.
+
+#### Calculate Sum of Subtree Rooted at `20`
+
+3. **Initialization:**
+   - Start with an empty queue and enqueue node `20`.
+
+4. **Traverse the Subtree:**
+   - **Dequeue Node `20`:**
+     - Add `20` to the sum.
+     - Enqueue its children: `10` and `10`.
+   - **Queue Now:** `[10, 10]`
+   - **Sum So Far:** `20`
+
+   - **Dequeue Node `10` (Left Child of `20`):**
+     - Add `10` to the sum.
+     - No children to enqueue.
+   - **Queue Now:** `[10]`
+   - **Sum So Far:** `20 + 10 = 30`
+
+   - **Dequeue Node `10` (Right Child of `20`):**
+     - Add `10` to the sum.
+     - No children to enqueue.
+   - **Queue Now:** `[]`
+   - **Sum So Far:** `30 + 10 = 40`
+
+   - **Sum of the Subtree Rooted at `20` is `40`.**
+
+5. **Calculate Sum of Right Subtree:**
+   - We call `sum(root->right)`, where `root->right` is `30`.
+
+#### Calculate Sum of Subtree Rooted at `30`
+
+6. **Initialization:**
+   - Start with an empty queue and enqueue node `30`.
+
+7. **Traverse the Subtree:**
+   - **Dequeue Node `30`:**
+     - Add `30` to the sum.
+     - No children to enqueue.
+   - **Queue Now:** `[]`
+   - **Sum So Far:** `30`
+
+   - **Sum of the Subtree Rooted at `30` is `30`.**
+
+### Step 2: Check if Node Value Equals Sum of Subtrees
+
+8. **Comparison for Root Node (`10`):**
+   - Calculate the sum of the left and right subtree sums: `40 (left) + 30 (right) = 70`.
+   - Compare `10` with `70`.
+
+   - **Check:** `10` (node value) != `70` (sum of subtrees).
+
+### Final Decision
+
+9. **Result:**
+   - Since `10` is not equal to `70`, the tree does not satisfy the sum tree property.
+
+10. **Return Value:**
+    - The function `isSumTree(root)` returns `false`, indicating that the tree is not a sum tree.
+
+### Summary
+
+- **Node Value:** `10`
+- **Left Subtree Sum:** `40`
+- **Right Subtree Sum:** `30`
+- **Total Sum of Subtrees:** `70`
+- **Comparison:** `10 != 70`
+- **Result:** `false`
+
+This step-by-step animation illustrates how each node is processed to determine whether the binary tree adheres to the sum tree property.
