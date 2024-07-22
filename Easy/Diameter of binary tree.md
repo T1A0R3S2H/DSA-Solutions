@@ -16,3 +16,20 @@ public:
     }
 };
 ```
+# Method 2 (single traversal), TC: O(n), SC: O(height)
+```cpp
+int HandD(Node*root, int &diameter){
+    if (root==NULL) return 0;
+    int lHeight=HandD(root->left, diameter);
+    int rHeight=HandD(root->right, diameter);
+    // update with max diameter found so far
+    diameter=max(diameter, lHeight+rHeight+1;
+    //
+    return max(lHeight, rHeight)+1;
+
+int diameter(Node*root){
+    int diameter=0;
+    HandD(root, diameter);
+    return diameter;
+}
+```
