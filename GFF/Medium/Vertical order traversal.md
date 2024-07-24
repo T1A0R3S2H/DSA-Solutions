@@ -1,5 +1,5 @@
-Certainly! Let's break down the provided C++ code step by step:
-
+![Screenshot 2024-07-24 085128](https://github.com/user-attachments/assets/d1309801-2752-44bb-9702-6d7ee35d63ff)
+### Code:
 ```cpp
 class Solution {
 public:
