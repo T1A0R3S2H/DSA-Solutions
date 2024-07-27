@@ -13,8 +13,8 @@ private:
             return 0;
         }
         // only non -ve values are considered (so that sum doesn't decrease)
-        int leftMax = max(maxPathSumHelper(node->left, maxSum), 0);
-        int rightMax = max(maxPathSumHelper(node->right, maxSum), 0);
+        int leftMax = max(solve(node->left, maxSum), 0);
+        int rightMax = max(solve(node->right, maxSum), 0);
         int currentMaxPath = node->val + leftMax + rightMax;
         maxSum = max(maxSum, currentMaxPath);
         
