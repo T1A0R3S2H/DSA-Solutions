@@ -1,4 +1,4 @@
-### Explanation:
+### Explanation of the code:
 
 The given code performs a level order traversal of a binary tree. This traversal visits nodes level by level from left to right.
 
