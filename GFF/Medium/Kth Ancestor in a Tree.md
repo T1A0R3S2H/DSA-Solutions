@@ -3,7 +3,7 @@ Your approach to finding the kth ancestor in a binary tree is correct. You can t
 Here's how you can implement this approach in C++:
 
 1. Perform a depth-first search (DFS) to find the path from the root to the given node and store the nodes in a vector.
-2. Once you have the path, if the kth ancestor exists, return the corresponding element from the vector; otherwise, return -1.
+2. Once you have the path, if the kth ancestor exists, return the corresponding element from the vector; otherwise, return -1 (false).
 
 Here is the complete implementation:
 
