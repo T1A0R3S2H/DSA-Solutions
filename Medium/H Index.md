@@ -20,7 +20,7 @@ The H-index is a metric used to measure the productivity and citation impact of 
 ### Step 4: Return the H-Index
 - If the count of papers with citations greater than or equal to the current H-index is at least as large as the H-index itself, then we have found our H-index and return it.
 
-### Example
+### Eg.
 Consider the citations list: `[3, 0, 6, 1, 5]`
 
 1. Count the frequency of each citation:
@@ -33,7 +33,7 @@ Consider the citations list: `[3, 0, 6, 1, 5]`
 
 Thus, the H-index for the given citations list is 3.
 
-### Code
+### C++ Code
 ```cpp
 class Solution {
 public:
