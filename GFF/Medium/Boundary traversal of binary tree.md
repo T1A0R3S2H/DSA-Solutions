@@ -1,4 +1,4 @@
-### Code Explanation
+### Explanation of the code
 
 The code aims to traverse the boundary of a binary tree and return the nodes in a specific order. The boundary traversal includes:
 1. The root node.
