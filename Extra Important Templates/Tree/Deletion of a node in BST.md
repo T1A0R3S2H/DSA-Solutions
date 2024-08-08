@@ -1,6 +1,6 @@
 
 ### Explanation
-The `deleteNode` function deletes a node with a specific key in a binary search tree (BST). Here’s a step-by-step explanation:
+The `deleteNode` function deletes a node with a specific key in a binary search tree (BST). Step-by-step explanation:
 
 1. **Base Case**:
     - If the `root` is `NULL`, it means the tree is empty or we've reached a leaf node's child. So, return `NULL`.
