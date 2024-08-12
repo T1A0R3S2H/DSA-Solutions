@@ -1,6 +1,6 @@
 ## Explanation of Top View and Bottom View Codes
 
-### Top View Code
+### Top View
 The top view of a binary tree is the set of nodes visible when the tree is viewed from the top. Here's the detailed explanation of how the top view code works:
 
 ```cpp
