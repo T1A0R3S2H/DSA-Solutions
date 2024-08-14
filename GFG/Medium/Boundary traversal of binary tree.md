@@ -1,6 +1,6 @@
 ### Explanation of the code
 
-The code aims to traverse the boundary of a binary tree and return the nodes in a specific order. The boundary traversal includes:
+The boundary traversal includes:
 1. The root node.
 2. The left boundary of the tree (excluding leaf nodes).
 3. All leaf nodes (from left to right).
