@@ -1,3 +1,4 @@
+# Method 1 (heap)
 ```cpp
 class Solution {
 public:
