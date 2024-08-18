@@ -1,4 +1,4 @@
-# Method 1 (Stack)
+# Method 1 (Using Stack)
 
 ## Approach:
 
