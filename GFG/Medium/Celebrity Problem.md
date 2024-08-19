@@ -1,10 +1,10 @@
 ## Method 1 (Brute Force)
-celeb wali poori row me 0s hone chahiye bas aur celeb wale column me diagonal ko chhodke baaki sab 1
+Celeb wali poori row me 0s hone chahiye bas aur celeb wale column me diagonal ko chhodke baaki sab 1.
 ```cpp
 class Solution 
 {
     public:
-    //Function to find if there is a celebrity in the party or not.
+    //It is the function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M, int n) 
     {
         int row=n;
