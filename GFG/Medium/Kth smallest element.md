@@ -3,15 +3,15 @@
 class Solution {
   public:
     int kthSmallest(vector<int> &arr, int k) {
-        // Step 1: Create a min-heap (priority queue)
+        // Create a min-heap (priority queue)
         priority_queue<int, vector<int>, greater<int>> pq(arr.begin(), arr.end());
 
-        // Step 2: Pop k-1 elements from the min-heap
+        // Pop k-1 elements from the min-heap
         for(int i=0; i<k-1; i++) {
             pq.pop();
         }
 
-        // Step 3: The top element is the kth smallest element
+        // The top element is the kth smallest element
         return pq.top();
     }
 };
