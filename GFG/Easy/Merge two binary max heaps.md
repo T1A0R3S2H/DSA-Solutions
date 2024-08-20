@@ -6,6 +6,8 @@ class Solution{
         vector<int> c;
         c.insert(c.end(), a.begin(), a.end());
         c.insert(c.end(), b.begin(), b.end());
+
+        // for a binary tree, the parent ends at n/2 - 1
         for (int i=(c.size()/2)-1; i>=0; --i) {
             heapify(c, c.size(), i);
         }
