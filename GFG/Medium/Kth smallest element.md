@@ -7,7 +7,7 @@ class Solution {
         priority_queue<int, vector<int>, greater<int>> pq(arr.begin(), arr.end());
 
         // Step 2: Pop k-1 elements from the min-heap
-        for(int i = 0; i < k-1; i++) {
+        for(int i=0; i<k-1; i++) {
             pq.pop();
         }
 
