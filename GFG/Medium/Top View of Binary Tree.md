@@ -1,186 +1,135 @@
-Here's the code with some explanations and proper markdown formatting:
-
+### Code:
 ```cpp
-class Solution
-{
-    public:
-    // Function to return a list of nodes visible from the top view 
-    // from left to right in Binary Tree.
-    vector<int> topView(Node *root)
-    {
-        map<int,int> v; // Map to store vertical height index and node data
-
-        vector<int> a; // Vector to store the result
-        if(!root) return a; // If the root is null, return an empty vector
-
-        queue<pair<Node*,int>> q; // Queue to perform level order traversal
-        q.push({root,0}); // Initialize the queue with the root node and its vertical height (0)
- 
-        while(q.size()){
-            Node *t = q.front().first; // Get the front node
-            int vh = q.front().second; // Get the vertical height of the front node
-            q.pop(); // Remove the front node from the queue
-            
-            // If this column index already has a node, we don't need to change it 
-            if(v[vh]==0) v[vh]=t->data; // If this vertical height is not in the map, add it 
-            
-            if(t->left) q.push({t->left,vh-1}); // Push the left child with vertical height vh-1
-            if(t->right) q.push({t->right,vh+1}); // Push the right child with vertical height vh+1
+class Solution {
+  public:  
+    vector<int> topView(Node *root) {
+        vector<int> ans;
+        if(root == NULL) return ans;
+        map<int,int>mp; // col, val;
+        queue<pair<Node*, int>>Q; // node, horizontal distance (hd) values
+        Q.push({root, 0});
+        
+        while(!Q.empty()){
+            auto temp = Q.front();
+            Q.pop();
+            Node* node = temp.first;
+            int hd = temp.second;
+            if(mp.find(hd) == mp.end() || mp[hd] == -1) {
+                mp[hd] = node->data;
+            }
+            if(node->left) Q.push({node->left, hd-1});
+            if(node->right) Q.push({node->right, hd+1});
         }
         
-        // All the nodes in the map are the nodes which are 
-        // encountered first in the vertical traversal so they give us the top view of the tree
-        for(auto x:v) a.push_back(x.second); // Add the nodes to the result vector
-        
-        return a; // Return the result
-    }
+        for(auto x:mp){
+            ans.push_back(x.second);
+        }
+        return ans;
+}
+
 };
 ```
 
-### Explanation
-- **Map `v`**: Stores the first node's data encountered at each vertical height.
-- **Queue `q`**: Used for level order traversal, where each element is a pair consisting of a node and its vertical height.
-- **Condition `if(v[vh]==0)`**: Ensures only the first node encountered at each vertical height is added to the map.
-- **Traversal**:
-  - Start with the root node at vertical height 0.
-  - For each node, if its left child exists, push it to the queue with a vertical height of `vh-1`.
-  - If its right child exists, push it to the queue with a vertical height of `vh+1`.
-- **Result Construction**: Extract values from the map to form the final result representing the top view of the binary tree.
+### Explanation:
 
-   # OR
-### Explanation
+The `topView` function is designed to return the top view of a binary tree. The top view of a binary tree is the set of nodes visible when the tree is viewed from the top. For each horizontal distance from the root, only the first node encountered is part of the top view.
 
 1. **Initialization**:
-    - We initialize an empty vector `ans` to store the result.
-    - We check if the root is `NULL`. If it is, we return the empty vector `ans`.
-    - We create a `map<int, int> topNode` to store the top view nodes. The key is the horizontal distance (HD) from the root, and the value is the node's data at that HD.
-    - We create a queue `q` of pairs, where each pair contains a node and its corresponding horizontal distance. We start by pushing the root node with an HD of 0.
+   - A vector `ans` is used to store the result.
+   - A map `mp` is used to store the first node encountered at each horizontal distance. The key is the horizontal distance (`hd`), and the value is the node's data.
+   - A queue `Q` is used for level-order traversal. It stores pairs of nodes and their corresponding horizontal distances.
 
-2. **Breadth-First Search (BFS)**:
-    - We perform a BFS to explore the tree level by level.
-    - For each node, we:
-        - Extract the front node from the queue.
-        - Check if the current horizontal distance (`hd`) is already present in the `topNode` map. If it isn't, we add the node's data to the map with its HD. This ensures that only the first (topmost) node encountered at each HD is recorded.
-        - If the current node has a left child, we push it onto the queue with an HD of `hd - 1`.
-        - If the current node has a right child, we push it onto the queue with an HD of `hd + 1`.
+2. **Traversal**:
+   - The root node is pushed into the queue with a horizontal distance of `0`.
+   - The function enters a while-loop that continues until the queue is empty.
+   - For each node, if its horizontal distance is not already in the map, the node's data is stored in the map for that horizontal distance. This ensures only the first encountered node at each horizontal distance is recorded.
 
-3. **Constructing the Result**:
-    - After the BFS completes, we traverse the `topNode` map and add each node's data to the `ans` vector. The map automatically sorts the keys (HDs), ensuring the nodes are added in the correct order.
+3. **Output**:
+   - The map is iterated in order of horizontal distances (from left to right), and the stored values are pushed into the result vector `ans`.
 
-4. **Return**:
-    - Finally, we return the `ans` vector, which contains the top view of the binary tree.
+### Time Complexity Analysis:
 
-### Code with Comments
-```cpp
-vector<int> topView(Node *root) {
-    vector<int> ans;
-    if (root == NULL) {
-        return ans;
-    }
-    
-    // Map to store the first node at each horizontal distance
-    map<int, int> topNode;
-    // Queue for BFS, storing nodes along with their horizontal distance
-    queue<pair<Node*, int>> q;
-    
-    // Start with the root node at horizontal distance 0
-    q.push(make_pair(root, 0));
-    
-    while (!q.empty()) {
-        pair<Node*, int> temp = q.front();
-        q.pop();
-        Node* frontNode = temp.first;
-        int hd = temp.second;
-        
-        // If this horizontal distance is encountered for the first time
-        if (topNode.find(hd) == topNode.end()) {
-            topNode[hd] = frontNode->data;
-        }
-        
-        // Push left child with horizontal distance hd-1
-        if (frontNode->left) {
-            q.push(make_pair(frontNode->left, hd - 1));
-        }
-        // Push right child with horizontal distance hd+1
-        if (frontNode->right) {
-            q.push(make_pair(frontNode->right, hd + 1));
-        }
-    }
-    
-    // Collecting the top view nodes from the map
-    for (auto i : topNode) {
-        ans.push_back(i.second);
-    }
-    return ans;
-}
-```
+- **Insertion and Lookup in Map**: Both operations in a map are O(log N). Here, N refers to the number of nodes in the tree.
+- **Traversal**: Each node is processed once, so the time complexity for traversal is O(N).
+- **Overall Time Complexity**: Since each node is processed once, and insertion and lookup in the map are O(log N), the overall time complexity is O(N log N).
 
-### Time Complexity
-- The BFS traversal visits each node exactly once. Therefore, the time complexity for visiting all nodes is \(O(N)\), where \(N\) is the number of nodes in the tree.
-- Inserting into the map and checking if a key exists both have a time complexity of \(O(\log N)\). However, since each node is processed exactly once, this operation contributes \(O(N \log N)\) to the overall time complexity.
-- Thus, the total time complexity is \(O(N \log N)\).
+### Space Complexity Analysis:
 
-### Space Complexity
-- The space complexity is dominated by the space required for the queue and the map.
-- The queue can hold at most \(O(N)\) nodes in the worst case (a complete binary tree).
-- The map can hold at most \(O(N)\) entries in the worst case (every node has a unique horizontal distance).
-- Therefore, the overall space complexity is \(O(N)\).
+- **Map**: The map stores at most `N` entries, one for each horizontal distance. Hence, space complexity for the map is O(N).
+- **Queue**: The queue can hold at most `N` nodes, leading to a space complexity of O(N).
+- **Overall Space Complexity**: O(N), due to the map and queue.
 
-### Dry Run Example
+### Dry Run:
 
-Consider the following binary tree:
+Let's perform a dry run on a simple example:
 
 ```
-        1
-       / \
-      2   3
-     / \ / \
-    4  5 6  7
+       1
+     /   \
+    2     3
+   / \   / \
+  4   5 6   7
 ```
 
-- Initial state:
-  - `q = [(1, 0)]`
-  - `topNode = {}`
+- **Initialization**:
+  - `ans = []`
+  - `mp = {}`
+  - `Q = [(1, 0)]` (root node with horizontal distance 0)
 
-- Step 1: Process node 1:
-  - `q = []`
-  - `topNode = {0: 1}`
-  - Push left child (2, -1) and right child (3, 1)
+1. **First Iteration**:
+   - `temp = (1, 0)`, so `node = 1` and `hd = 0`.
+   - `mp = {0: 1}` (insert 1 at horizontal distance 0).
+   - Push left child `(2, -1)` and right child `(3, 1)` into the queue.
+   - `Q = [(2, -1), (3, 1)]`.
 
-- Step 2: Process node 2:
-  - `q = [(3, 1)]`
-  - `topNode = {0: 1, -1: 2}`
-  - Push left child (4, -2) and right child (5, 0)
+2. **Second Iteration**:
+   - `temp = (2, -1)`, so `node = 2` and `hd = -1`.
+   - `mp = {0: 1, -1: 2}` (insert 2 at horizontal distance -1).
+   - Push left child `(4, -2)` and right child `(5, 0)` into the queue.
+   - `Q = [(3, 1), (4, -2), (5, 0)]`.
 
-- Step 3: Process node 3:
-  - `q = [(4, -2), (5, 0)]`
-  - `topNode = {0: 1, -1: 2, 1: 3}`
-  - Push left child (6, 0) and right child (7, 2)
+3. **Third Iteration**:
+   - `temp = (3, 1)`, so `node = 3` and `hd = 1`.
+   - `mp = {0: 1, -1: 2, 1: 3}` (insert 3 at horizontal distance 1).
+   - Push left child `(6, 0)` and right child `(7, 2)` into the queue.
+   - `Q = [(4, -2), (5, 0), (6, 0), (7, 2)]`.
 
-- Step 4: Process node 4:
-  - `q = [(5, 0), (6, 0), (7, 2)]`
-  - `topNode = {0: 1, -1: 2, 1: 3, -2: 4}`
-  - No children to push
+4. **Fourth Iteration**:
+   - `temp = (4, -2)`, so `node = 4` and `hd = -2`.
+   - `mp = {0: 1, -1: 2, 1: 3, -2: 4}` (insert 4 at horizontal distance -2).
+   - Node 4 has no children, so no further nodes are added to the queue.
+   - `Q = [(5, 0), (6, 0), (7, 2)]`.
 
-- Step 5: Process node 5:
-  - `q = [(6, 0), (7, 2)]`
-  - `topNode remains unchanged` (0 is already in the map)
-  - No children to push
+5. **Fifth Iteration**:
+   - `temp = (5, 0)`, so `node = 5` and `hd = 0`.
+   - `mp` remains `{0: 1, -1: 2, 1: 3, -2: 4}` (no insertion as `hd = 0` is already in the map).
+   - Node 5 has no children, so no further nodes are added to the queue.
+   - `Q = [(6, 0), (7, 2)]`.
 
-- Step 6: Process node 6:
-  - `q = [(7, 2)]`
-  - `topNode remains unchanged` (0 is already in the map)
-  - No children to push
+6. **Sixth Iteration**:
+   - `temp = (6, 0)`, so `node = 6` and `hd = 0`.
+   - `mp` remains `{0: 1, -1: 2, 1: 3, -2: 4}` (no insertion as `hd = 0` is already in the map).
+   - Node 6 has no children, so no further nodes are added to the queue.
+   - `Q = [(7, 2)]`.
 
-- Step 7: Process node 7:
-  - `q = []`
-  - `topNode = {0: 1, -1: 2, 1: 3, -2: 4, 2: 7}`
-  - No children to push
+7. **Seventh Iteration**:
+   - `temp = (7, 2)`, so `node = 7` and `hd = 2`.
+   - `mp = {0: 1, -1: 2, 1: 3, -2: 4, 2: 7}` (insert 7 at horizontal distance 2).
+   - Node 7 has no children, so no further nodes are added to the queue.
+   - `Q = []`.
 
-- Final `topNode` map:
-  - `{-2: 4, -1: 2, 0: 1, 1: 3, 2: 7}`
-  
-- Result vector `ans`:
-  - `[4, 2, 1, 3, 7]`
+8. **Queue is Empty**: Exit the loop.
 
-Thus, the top view of the tree is `[4, 2, 1, 3, 7]`.
+9. **Construct Result**:
+   - Iterate over `mp` and populate `ans`:
+     - For `hd = -2`, value is 4.
+     - For `hd = -1`, value is 2.
+     - For `hd = 0`, value is 1.
+     - For `hd = 1`, value is 3.
+     - For `hd = 2`, value is 7.
+   - `ans = [4, 2, 1, 3, 7]`.
+
+### Conclusion:
+
+- The `topView` function correctly computes the top view of the binary tree by maintaining the first node seen at each horizontal distance. 
+- The confusion in the map update condition (using `mp.find(hd) == mp.end() || mp[hd] == -1`) could be addressed by recognizing that only the first node for each HD should be inserted into the map, and subsequent nodes at the same HD should be ignored to preserve the top view property.
