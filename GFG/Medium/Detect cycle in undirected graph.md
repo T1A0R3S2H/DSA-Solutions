@@ -180,6 +180,8 @@ class Solution {
                     int node=q.front();
                     q.pop();
                     visited[node]=true;
+         
+                    // neighbours
                     for(auto &it:adj[node]){
                         if(!visited[it]){
                             parent[it]=node;
