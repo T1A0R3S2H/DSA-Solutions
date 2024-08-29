@@ -1,3 +1,4 @@
+# Method 1 (DFS)
 ### Code
 ```cpp
 class Solution {
@@ -111,3 +112,137 @@ Let's perform a dry run with an example graph:
 ### Conclusion
 
 The code correctly identifies the presence of a cycle in the directed graph using DFS and backtracking. The `visited` and `dfsVisited` vectors play crucial roles in tracking the state of nodes to identify cycles efficiently. The dry run confirms the functionality and accuracy of the approach.
+
+
+# Method 2 (BFS)
+### Code
+```cpp
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<int> inedge(V, 0);  // Vector to store in-degrees of all vertices
+        
+        // Calculate in-degrees of all vertices
+        for (int i = 0; i < V; i++) {
+            for (auto j : adj[i]) {
+                inedge[j]++;
+            }
+        }
+        
+        queue<int> q;
+        
+        // Enqueue all vertices with in-degree 0
+        for (int i = 0; i < V; i++) {
+            if (inedge[i] == 0) {
+                q.push(i);
+            }
+        }
+        
+        int count = 0;  // To count the number of vertices processed
+        
+        while (!q.empty()) {
+            int topNode = q.front();
+            q.pop();
+            count++;
+            
+            // Decrease the in-degree of adjacent vertices
+            for (auto i : adj[topNode]) {
+                inedge[i]--;
+                
+                // If in-degree becomes 0, enqueue the vertex
+                if (inedge[i] == 0) {
+                    q.push(i);
+                }
+            }
+        }
+        
+        // If count is equal to V, no cycle is present
+        // If count is less than V, cycle is present
+        return count != V;
+    }
+};
+```
+
+### **Explanation**
+
+The code is designed to detect cycles in a directed graph using Kahn's Algorithm, which is typically used for topological sorting. If the graph contains a cycle, Kahn's Algorithm will not be able to process all nodes, as some will remain with a non-zero in-degree.
+
+**Steps Involved:**
+
+1. **In-degree Calculation**:
+   - The `inedge` vector is used to store the in-degree (the number of incoming edges) of each vertex. We iterate through each vertex and its adjacency list to populate the `inedge` vector.
+
+2. **Queue Initialization**:
+   - A queue `q` is initialized, and all vertices with an in-degree of 0 are enqueued. These vertices have no dependencies and can be processed immediately.
+
+3. **Processing Nodes**:
+   - The algorithm processes each node in the queue by popping it, incrementing a count of processed nodes (`count`), and reducing the in-degree of its adjacent nodes. If any adjacent node's in-degree drops to 0, it is enqueued.
+
+4. **Cycle Detection**:
+   - After processing, if the `count` of processed nodes equals the total number of vertices \( V \), the graph is acyclic (no cycle). If the `count` is less than \( V \), it indicates the presence of a cycle, as some nodes were not processed (due to remaining in-degrees).
+
+### **Time Complexity Analysis**
+
+- **In-degree Calculation**: 
+  - This involves iterating over all vertices and their adjacency lists, resulting in a time complexity of \( O(V + E) \), where \( V \) is the number of vertices and \( E \) is the number of edges.
+
+- **Queue Processing**: 
+  - Each vertex is enqueued and dequeued at most once, and we examine each edge at most once when decrementing the in-degree of adjacent nodes. This adds another \( O(V + E) \) time complexity.
+
+- **Overall Time Complexity**: 
+  - Combining both steps, the overall time complexity is \( O(V + E) \).
+
+### **Space Complexity Analysis**
+
+- **Space for In-degree Array**: 
+  - We use a vector `inedge` of size \( V \) to store in-degrees, requiring \( O(V) \) space.
+
+- **Space for Queue**: 
+  - The queue can hold up to \( V \) vertices, requiring \( O(V) \) space.
+
+- **Space for Adjacency List**: 
+  - The adjacency list representation of the graph requires \( O(V + E) \) space.
+
+- **Overall Space Complexity**: 
+  - Combining these, the overall space complexity is \( O(V + E) \).
+
+### **Dry Run**
+
+Let's perform a dry run using a sample directed graph to understand how the algorithm works:
+
+#### **Graph Example**:
+- Vertices (V) = 4
+- Edges (E) = 4
+- Adjacency List Representation:
+  - 0 -> 1
+  - 1 -> 2
+  - 2 -> 3
+  - 3 -> 1 (Cycle exists here)
+
+#### **Initialization**:
+- `inedge` = `[0, 0, 0, 0]`
+  
+#### **Step 1: Calculate In-degrees**:
+- For vertex 0: `inedge` = `[0, 1, 0, 0]` (edge 0 -> 1)
+- For vertex 1: `inedge` = `[0, 1, 1, 0]` (edge 1 -> 2)
+- For vertex 2: `inedge` = `[0, 1, 1, 1]` (edge 2 -> 3)
+- For vertex 3: `inedge` = `[0, 2, 1, 1]` (edge 3 -> 1, forms a cycle)
+
+#### **Step 2: Initialize Queue**:
+- Only vertex 0 has in-degree 0.
+- `q` = `[0]`
+
+#### **Step 3: Process Queue**:
+- Pop vertex 0:
+  - Count = 1
+  - `inedge` after processing vertex 0: `[0, 1, 1, 1]`
+- No other vertices have in-degree 0, so the queue remains empty.
+
+#### **Cycle Detection**:
+- Count = 1, which is less than the number of vertices \( V = 4 \). This indicates that a cycle is present in the graph because not all vertices could be processed.
+- The function returns `true`, indicating a cycle is detected.
+
+### **Summary**
+
+- The algorithm uses Kahn's Algorithm to check if a directed graph has a cycle. It does this by maintaining the in-degree of each node and using a queue to process nodes with zero in-degrees. If all nodes are processed (i.e., the count equals \( V \)), the graph is acyclic. If not, the presence of a cycle is confirmed. The approach is efficient with a time complexity of \( O(V + E) \) and space complexity of \( O(V + E) \), making it suitable for large graphs.
