@@ -23,7 +23,7 @@ vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
         return dist;
     }
 ```
-# Method 2 (set)
+# Method 2 (Using Set)
 ```cpp
 #include <vector>
 #include <set>
