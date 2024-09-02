@@ -1,3 +1,4 @@
+# DFS:
 ```cpp
 class Solution {
 	public:
@@ -27,4 +28,35 @@ class Solution {
 	    return res;
 	}
 };
+```
+---
+# BFS:
+```cpp
+vector<int>topo(int v, vector<int>adj[]){
+	vector<int> res;
+	vector<int>indgree(v, 0);
+	for(int i=0;i<v;i++){
+		for(int it:adj[i]){
+			indegree[it];
+		}
+	}
+	queue<int> q;
+	for(int i=0;i<v;i++){
+		if(indegree==0){
+			q.push(i);
+		}
+	}
+	while(!q.empty()){
+		int curr=q.front();
+		q.pop();
+		res.push_back(curr);
+		for(int x:adj[curr]){
+			indegree[x]--;
+			if(indegree[x]==0){
+				q.push_back(x);
+			}
+		}
+	return res;
+	}
+}
 ```
