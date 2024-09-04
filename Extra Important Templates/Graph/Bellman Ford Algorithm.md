@@ -11,22 +11,17 @@ class Solution {
         dist[S] = 0;
         
         // run n-1 times
-        for(int i=1; i<=V-1; i++)
-        {
-            for(auto it:edges)
-            {
-                if(dist[it[0]]!=1e8 && dist[it[0]]+it[2] < dist[it[1]])
-                {
-                    dist[it[1]] = dist[it[0]]+it[2];
+        for(int i=1; i<=V-1; i++){
+            for(auto it:edges){
+                if(dist[it[0]]!=1e8 && dist[it[0]]+it[2] < dist[it[1]]){
+                    dist[it[1]]=dist[it[0]]+it[2];
                 }
             }
         }
         
         // check for -ve cycles
-        for(auto it:edges)
-        {
-            if(dist[it[0]]!=1e8 && dist[it[0]]+it[2] < dist[it[1]])
-            {
+        for(auto it:edges){
+            if(dist[it[0]]!=1e8 && dist[it[0]]+it[2] < dist[it[1]]){
                 return {-1};
             }
         }
