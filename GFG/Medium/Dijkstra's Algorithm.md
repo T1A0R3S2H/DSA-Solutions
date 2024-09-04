@@ -1,9 +1,13 @@
 # Method 1 (min heap)
 ### Code
 ```cpp
-vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
+class Solution{
+public:
+    vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
         vector<int> dist(V, INT_MAX);
         dist[S]=0;
+        
+        // min-heap in ascending order of distances
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({0, S});
     
@@ -11,9 +15,13 @@ vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
             int d=pq.top().first;
             int node=pq.top().second;
             pq.pop();
+            
+            // adjacent nodes
             for (auto it:adj[node]) {
                 int neighbor=it[0];
                 int weight=it[1];
+                
+                //main dijkstra's conditions
                 if (dist[node]+weight<dist[neighbor]) {
                     dist[neighbor]=dist[node]+weight;
                     pq.push({dist[neighbor], neighbor});
@@ -22,7 +30,8 @@ vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
         }
     
         return dist;
-}
+    }
+};
 ```
 ### Explanation
 
