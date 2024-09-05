@@ -1,6 +1,6 @@
+### Code
 ```cpp
-TreeNode *LCAinaBST(TreeNode *root, TreeNode *P, TreeNode *Q)
-{
+TreeNode *LCAinaBST(TreeNode *root, TreeNode *P, TreeNode *Q){
     if(root==nullptr) {
         return root;
     }
@@ -15,11 +15,9 @@ TreeNode *LCAinaBST(TreeNode *root, TreeNode *P, TreeNode *Q)
     if(LEFTSIDE!=nullptr && RIGHTSIDE!=nullptr) {
         return root;
     } 
-    
     else if(LEFTSIDE!=nullptr) {
         return LEFTSIDE;
     }
-    
     else {
         return RIGHTSIDE;
     }
