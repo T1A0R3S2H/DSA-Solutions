@@ -29,3 +29,5 @@ class Solution {
     }
 };
 ```
+![image](https://github.com/user-attachments/assets/e926429c-12c8-409d-bd65-d1afc591cc7c)
+
