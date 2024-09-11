@@ -64,55 +64,58 @@ The problem is asking whether it's possible to finish all courses given some pre
 ```cpp
 class Solution {
 public:
-    // Function to check if there is a cycle using Kahn's algorithm
+
     bool isCyclic(int V, vector<int> adj[]) {
         vector<int> inedge(V, 0);  // Vector to store in-degrees of all vertices
         
         // Calculate in-degrees of all vertices
-        for (int i = 0; i < V; i++) {
-            for (auto j : adj[i]) {
+        for (int i=0; i<V; i++) {
+            for (auto j:adj[i]) {
                 inedge[j]++;
             }
         }
-        
         queue<int> q;
         // Enqueue all vertices with in-degree 0
-        for (int i = 0; i < V; i++) {
-            if (inedge[i] == 0) {
+        for (int i=0; i<V; i++) {
+            if (inedge[i]==0) {
                 q.push(i);
             }
         }
-        
-        int count = 0;  // To count the number of vertices processed
+        int count=0;
         while (!q.empty()) {
-            int topNode = q.front();
+            int topNode=q.front();
             q.pop();
             count++;
-            // Decrease the in-degree of adjacent vertices
-            for (auto i : adj[topNode]) {
+            // ghatao in-degree adjacent vertices ki
+            for (auto i:adj[topNode]) {
                 inedge[i]--;
                 // If in-degree becomes 0, enqueue the vertex
-                if (inedge[i] == 0) {
+                if (inedge[i]==0) {
                     q.push(i);
                 }
             }
         }
-        
         // If count is equal to V, no cycle is present
-        return count != V;
+        // If count is less than V, cycle is present
+        return count!=V;
     }
 
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int> adj[numCourses];  // Create an adjacency list
-        
-        // Build the graph from the prerequisites
-        for (auto pre : prerequisites) {
+        int V=prerequisites.size();
+        vector<int>ans;
+        vector<int>indegree(V, 0);
+        vector<int>adj[numCourses];
+        for (auto pre:prerequisites) {
             adj[pre[1]].push_back(pre[0]);
         }
-        
-        // Check if there's a cycle in the graph
-        return !isCyclic(numCourses, adj);  // If there's a cycle, return false; otherwise, return true
+        if (isCyclic(numCourses, adj)) {
+            return false;
+        }
+        return true;
     }
+
+    
 };
 ```
 
