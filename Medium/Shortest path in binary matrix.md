@@ -6,6 +6,7 @@ public:
         int n=grid.size();
         int drow[]={-1, -1, 0, 1, 1, 1, 0, -1};
         int dcol[]={0, 1, 1, 1, 0, -1, -1, -1};
+
         if(grid[0][0]==1) return -1;
 
         queue<pair<int, pair<int, int>>>pq;
@@ -21,12 +22,11 @@ public:
             int col=it.second.second;
 
             if(row==n-1 && col==n-1) return wt+1;
+
             for(int i=0;i<8;i++){
                 int nrow=row+drow[i];
                 int ncol=col+dcol[i];
-                if(nrow>=0 && ncol>=0 && nrow<n && ncol<n && grid[nrow][ncol]==0 && 
-                dist[nrow][ncol]>1+wt){
-
+                if(nrow>=0 && ncol>=0 && nrow<n && ncol<n && grid[nrow][ncol]==0 && dist[nrow][ncol]>1+wt){
                     dist[nrow][ncol]=wt+1;
                     pq.push({wt+1,{nrow,ncol}});
                 }
@@ -36,7 +36,6 @@ public:
     }
 };
 ```
-Here's the final ETSD (Explanation, Time Complexity, Space Complexity, Dry Run) for the "Shortest Path in Binary Matrix" problem:
 
 ### Explanation
 
