@@ -1,6 +1,6 @@
 # Undirected graph
-```cpp
-vector<int>shortestPath(vector<pair<int, int>adges, int n, int m, int s, int t){
+```c
+vector<int>shortestPath(vector<pair<int, int>edges, int n, int m, int s, int t){
   // adj list
   unordered_map<int, list<int>>adj;
   for(int i=0;<edges.size();i++){
@@ -40,7 +40,7 @@ vector<int>shortestPath(vector<pair<int, int>adges, int n, int m, int s, int t){
 ---
 
 # Directed Acyclic Graph (DAG)
-```cpp
+```c
 #include<bits/stdc++.h>
 void toposort(int node, vector<pair<int, int>> adj[], vector<int>& vis, stack<int>& st) {
     vis[node] = 1;
