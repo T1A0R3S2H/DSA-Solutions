@@ -1,4 +1,4 @@
-# DFS:
+# DFS (Depth first search):
 ```cpp
 class Solution {
 	public:
@@ -30,7 +30,7 @@ class Solution {
 };
 ```
 ---
-# BFS:
+# BFS (Breadth first search):
 ```cpp
 vector<int>topo(int v, vector<int>adj[]){
 	vector<int> res;
