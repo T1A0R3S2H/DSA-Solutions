@@ -7,36 +7,35 @@ public:
     vector<vector<pair<int, int>>> graph(n+1);
     
     // Populate the graph
-    for (const auto& time : times) {
-        int u = time[0], v = time[1], w = time[2];
+    for (const auto& time:times) {
+        int u=time[0], v=time[1], w=time[2];
         graph[u].emplace_back(v, w);
     }
     
-    // Use a priority queue to implement Dijkstra's algorithm (min-heap)
+    // Dijkstra's algorithm (min-heap) use karo
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     
     // Distance vector to store the minimum time to reach each node, initialized to infinity
     vector<int> dist(n + 1, INT_MAX);
     
     // Start from the source node k, so the distance to k is 0
-    dist[k] = 0;
+    dist[k]=0;
     pq.push({0, k});  // {time, node}
-    
     // Process the nodes
     while (!pq.empty()) {
-        auto [time, node] = pq.top();
+        auto [time, node]=pq.top();
         pq.pop();
         
         // If we have already found a better path to this node, continue
-        if (time > dist[node]) continue;
+        if (time>dist[node]) continue;
         
         // Explore the neighbors of the current node
-        for (auto& [neighbor, weight] : graph[node]) {
-            int newTime = time + weight;
+        for (auto& [neighbor, weight]:graph[node]) {
+            int newTime=time+weight;
             
             // If a shorter path is found, update and push to the queue
-            if (newTime < dist[neighbor]) {
-                dist[neighbor] = newTime;
+            if (newTime<dist[neighbor]) {
+                dist[neighbor]=newTime;
                 pq.push({newTime, neighbor});
             }
         }
@@ -55,7 +54,6 @@ public:
 
 
 ### Explanation:
-
 This problem can be solved using **Dijkstra's Algorithm**, which is designed to find the shortest paths from a source node to all other nodes in a graph with non-negative edge weights. The goal of this problem is to compute the minimum time it takes for a signal to reach all nodes in the network starting from a specific node `k`.
 
 Here's a breakdown of the code:
