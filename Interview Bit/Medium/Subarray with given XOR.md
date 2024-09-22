@@ -7,7 +7,7 @@ We initialize an unordered map `mp` to store the count of each unique XOR value 
 
 
 ```cpp
-int Solution::solve(vector<int> &A, int B) {
+int solve(vector<int> &A, int B) {
     int n = A.size();
     int count = 0;
     int xor_prefix = 0;
