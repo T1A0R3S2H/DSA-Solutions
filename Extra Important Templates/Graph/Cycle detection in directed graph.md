@@ -1,4 +1,4 @@
-## DFS
+## DFS (Depth first search)
 ```cpp
 class Solution {
   public:
