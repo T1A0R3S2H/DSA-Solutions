@@ -1,8 +1,8 @@
-### Code
+### C++ Code 
 ```cpp
 class Solution
 {
-	public:
+public:
     void dfs(int node, unordered_map<int,bool> &vis, stack<int>&st, vector<vector<int>>& adj){
         vis[node]=true;
         for(auto neigh:adj[node]){
