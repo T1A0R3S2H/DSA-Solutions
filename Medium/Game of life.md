@@ -53,7 +53,7 @@ This helper function counts the number of live neighbors for a given cell.
 - Time Complexity: O(m * n), where m and n are the dimensions of the board.
 - Space Complexity: O(m * n) for the temporary next state board.
 
-## Code
+## C++ Code
 ```cpp
 class Solution {
 public:
