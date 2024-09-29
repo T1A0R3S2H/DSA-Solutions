@@ -1,4 +1,4 @@
-## Method 1
+## 1st Method
 The approach used in this solution is based on the concept of prefix XOR and frequency mapping. The idea is to calculate the XOR of all subarrays that end at each index and keep track of the count of each unique XOR value encountered so far. 
 
 
