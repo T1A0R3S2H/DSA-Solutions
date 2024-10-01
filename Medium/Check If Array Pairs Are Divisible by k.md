@@ -41,6 +41,7 @@ The problem requires checking whether an array of integers can be divided into p
    - The pairing can be checked using the following rules:
      - For remainder \( 0 \): There must be an even count of elements giving this remainder since they can pair with themselves.
      - For each remainder \( i \) from \( 1 \) to \( k/2 \), the count of elements giving a remainder \( i \) must equal the count of elements giving the remainder \( k - i \). This ensures that each element can be paired correctly. i.e the complementary wali chheze.
+![image](https://github.com/user-attachments/assets/89b3701c-df3b-4eea-8662-b8bb363f3fd4)
 
 4. **Final Decision**:
    - If all conditions are satisfied, return `true`; otherwise, return `false`.
