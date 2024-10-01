@@ -29,6 +29,8 @@ class Solution {
   	}
 };
 ```
+## Important Tip
+- Here instead of `while` loop, we can't use `for` loop, because the `for` loop doesn't work for disconnected components.
 ### Explanation
 
 The function `bfsOfGraph` performs a Breadth-First Search (BFS) on an undirected graph represented by an adjacency list. The BFS traversal starts from the first node (`0`) and visits all nodes in a level-order manner. Here is a breakdown of the code:
