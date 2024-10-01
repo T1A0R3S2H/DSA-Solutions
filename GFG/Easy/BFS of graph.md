@@ -2,26 +2,31 @@
 ```cpp
 class Solution {
   public:
-    // Function to return Breadth First Traversal of given graph.
-    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
-        vector<int> ans;
-        vector<int> visited(V, 0);
-        queue<int> q;
-        q.push(0);
-        visited[0]=1;
-        while(!q.empty()){
-            int front=q.front();
-            q.pop();
-            ans.push_back(front);
-            for(auto& it:adj[front]){
-                if(!visited[it]){
-                    q.push(it);
-                    visited[it]=1; //true
-                }
-            }
-        }
-        return ans;
-    }
+    vector<int> bfsOfGraph(int V, vector<int> adj[]){
+	    vector<bool> visited(V, false);
+	    vector<int> res;
+	    queue<int> q;
+	    
+	    // as in the question, it is given that starting from the 0th vertex
+	    q.push(0);
+	    visited[0]=1;
+
+            // for all the neighbours
+	    while (!q.empty()) {
+	        int front=q.front();
+	        res.push_back(front);
+	        q.pop();
+	        
+	        // mark true after popping
+	        // for joining the disconnected components
+	        for(int it:adj[front])
+	            if(!visited[it]){ 
+	                q.push(it);
+	                visited[it]=true;
+	            }
+	    }
+	    return res;
+  	}
 };
 ```
 ### Explanation
