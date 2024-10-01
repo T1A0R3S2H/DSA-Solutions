@@ -1,43 +1,57 @@
 # DFS
+#### Short Explanation
+- This algorithm detects cycles in a directed graph using Depth First Search (DFS) by maintaining two arrays: `vis[]` to track whether a node has been visited in any DFS traversal, and `dfsVis[]` to track if a node is currently in the DFS recursion stack (i.e., the current path being explored). For each unvisited node in the graph, DFS is initiated to explore its adjacent nodes. If an adjacent node hasn't been visited yet, DFS recursively continues from that node. However, if DFS encounters an adjacent node that has already been visited and is still in the current DFS path (tracked by `dfsVis[]` being `1`), a back edge is detected, indicating a cycle in the graph. Back edges represent connections that loop back to an ancestor node in the current DFS path, a hallmark of a cycle.
+
+- The algorithm backtracks after exploring all neighbors of a node, removing it from the current DFS path by resetting `dfsVis[]` to `0`. This ensures that once a node and its descendants are fully processed, it no longer contributes to the path being explored. The process repeats for all nodes, covering disconnected components. If any DFS call detects a cycle, the algorithm immediately returns `true`. If the entire graph is explored without detecting a cycle, it returns `false`. This approach efficiently detects cycles with a time complexity of O(V + E), where V is the number of vertices and E is the number of edges, and uses O(V) space due to the two auxiliary arrays. The key insight is that by tracking nodes in the current DFS path, the algorithm can reliably detect cycles in a directed graph.
+  
+- Example to Illustrate:
+Consider a directed graph with the following edges:
+
+```cpp
+0 → 1
+1 → 2
+2 → 3
+3 → 1 (Back edge forming a cycle)
+```
+##### Dry Run
+1. DFS starts from node 0 and explores nodes 1, 2, and 3.
+2. When exploring node 3, it tries to visit 1 again, but since 1 is already in the current DFS stack (dfsVis[1] == 1), a cycle is detected.
+3. The algorithm returns true at this point, indicating a cycle exists.
+##### Why This Works:
+The key idea behind the algorithm is detecting back edges, which are edges pointing back to an ancestor in the current DFS path. These back edges indicate a cycle.
+By using the dfsVis[] array to track nodes in the current DFS recursion, we can easily detect such back edges.
 ### Code
 ```cpp
 class Solution {
   public:
-    // Function to detect cycle in an undirected graph.
-    bool isCycle(int V, vector<int> adj[]) {
-        vector<int> visited(V, 0); // To track visited nodes
-        
-        // Iterate through all nodes to handle disconnected graphs
-        for (int i=0; i<V; i++) {
-            if (!visited[i]) {
-                // If a cycle is found, return true
-                if (dfs(i, -1, visited, adj)) {
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<int> vis(V, 0);
+        vector<int>dfsVis(V, 0);
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                if(dfs(i, vis, dfsVis, adj)){
                     return true;
                 }
             }
         }
-        
         return false;
     }
     
-  private:
-    bool dfs(int node, int parent, vector<int> &visited, vector<int> adj[]) {
-        visited[node] = 1; // Mark the current node as visited
-        
-        // Traverse all adjacent nodes
-        for (auto &it : adj[node]) {
-            if (!visited[it]) {
-                // Recur for the adjacent node
-                if (dfs(it, node, visited, adj)) {
+    bool dfs(int node, vector<int> & vis, vector<int> &dfsVis, vector<int> adj[]){
+        vis[node]=1;
+        dfsVis[node]=1;
+        for(auto it:adj[node]){
+            if(!vis[it]){
+                if(dfs(it, vis, dfsVis, adj)){
                     return true;
                 }
             }
-            // If an adjacent node is visited and is not the parent, a cycle is found
-            else if (it != parent) {
+            else if(dfsVis[it]&&vis[it]){
                 return true;
             }
         }
-        
+        dfsVis[node]=0;
         return false;
     }
 };
