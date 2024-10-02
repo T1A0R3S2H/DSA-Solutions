@@ -1,7 +1,10 @@
 ### Code:
-```c
-vector<int> shortestPath(vector<vector<int>>& edges, int N, int M, int src) {
-        // Create the adjacency list
+```cpp
+class Solution {
+  public:
+    vector<int> shortestPath(vector<vector<int>>& edges, int N, int M, int src) {
+        
+        // adj list banao
         unordered_map<int, list<int>> adj;
         for(int i=0; i<M; i++) {
             int u=edges[i][0];
@@ -18,16 +21,19 @@ vector<int> shortestPath(vector<vector<int>>& edges, int N, int M, int src) {
             int node=q.front();
             q.pop();
             
-            // Traverse all adjacent nodes of the current node
+            // neighbours of current node
             for(auto it:adj[node]) {
-                if(distance[it]==-1) {  // If the neighbor has not been visited
-                    distance[it]=distance[node] + 1;  // Update its distance
-                    q.push(it);  // Push the neighbor into the queue for further exploration
+                
+                // neighbour not vis
+                if(distance[it]==-1) {
+                    distance[it]=distance[node]+1;
+                    q.push(it);
                 }
             }
         }
         return distance;
     }
+};
 ```
 
 Let's go through the **ETSD (Explanation, Time Complexity, Space Complexity, and Dry Run)** of your code.
