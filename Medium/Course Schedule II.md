@@ -3,37 +3,6 @@
 class Solution {
 public:
     // Function to detect if there is a cycle in the graph
-    bool isCyclic(int V, vector<int> adj[]) {
-        vector<int> inedge(V, 0);
-        // Calculate in-degrees of all vertices
-        for (int i=0; i<V; i++) {
-            for (auto j:adj[i]) {
-                inedge[j]++;
-            }
-        }
-        queue<int> q;
-        for (int i=0; i<V; i++) {
-            if (inedge[i]==0) {
-                q.push(i);
-            }
-        }
-        int count=0;
-        while (!q.empty()) {
-            int topNode=q.front();
-            q.pop();
-            count++;
-            // Decrease the in-degree of adjacent vertices
-            for (auto i:adj[topNode]) {
-                inedge[i]--;
-                if (inedge[i]==0) {
-                    q.push(i);
-                }
-            }
-        }
-        // If count is equal to V, no cycle is present, else a cycle is present
-        return count!=V;
-    }
-
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         vector<int> adj[numCourses];
         vector<int> inedge(numCourses, 0);
