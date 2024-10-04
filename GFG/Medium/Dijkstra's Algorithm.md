@@ -9,6 +9,8 @@ public:
         
         // min-heap in ascending order of distances
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+        // assign zero dist to the src
         pq.push({0, S});
     
         while (!pq.empty()) {
