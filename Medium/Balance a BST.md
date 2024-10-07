@@ -1,4 +1,4 @@
-### Explanation
+### Explanation of the code
 
 The given code is a solution to the problem of balancing a Binary Search Tree (BST). The code consists of three main functions: `inorder`, `buildTree`, and `balanceBST`.
 
