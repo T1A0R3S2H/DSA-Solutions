@@ -65,3 +65,48 @@ public:
     - The answer is `min(dp[2], dp[1]) = min(30, 15) = 15`.
 
 This approach avoids redundant calculations and resolves the TLE.
+
+# Method 3 (Recursion+Memoization, Top-down)
+Define a recursive function that computes the minimum cost to climb to a particular step and memoize the results to avoid redundant calculations.
+
+Here’s how we can implement the top-down approach with memoization:
+
+### Memoization + Recursion Approach (Top-Down)
+
+```cpp
+class Solution {
+public:
+    int solve(int i, vector<int>& cost, vector<int>& dp) {
+        // Base cases
+        if (i<0) return 0;
+        if (i==0 || i==1) return cost[i];
+        if (dp[i]!=-1) return dp[i];
+        dp[i]=cost[i]+min(solve(i-1, cost, dp), solve(i-2, cost, dp));
+        return dp[i];
+    }
+
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n=cost.size();
+        if (n==0) return 0;
+        vector<int> dp(n, -1);
+        return min(solve(n-1, cost, dp), solve(n-2, cost, dp));
+    }
+};
+
+```
+
+### Explanation:
+1. **Recursion + Memoization**:
+    - We use a helper function `minCost(i, cost, memo)` that recursively calculates the minimum cost to reach the `i`-th step.
+    - The recursion uses the relation: 
+      \[
+      \text{minCost}(i) = \text{cost}[i] + \min(\text{minCost}(i-1), \text{minCost}(i-2))
+      \]
+    - To optimize, we use a memoization array (`memo`) that stores the minimum cost for each step, avoiding recomputation.
+  
+2. **Base Cases**:
+    - If `i == 0` or `i == 1`, the minimum cost is simply `cost[i]`.
+    - If `i < 0`, return `0` as it doesn't contribute to the cost.
+
+3. **Final Result**:
+    - The minimum cost to reach the top is the minimum of the last two steps: `min(minCost(n-1), minCost(n-2))`.
