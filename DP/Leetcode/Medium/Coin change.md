@@ -24,7 +24,7 @@ public:
 };
 ```
 
-## GIST
+## GIST of the code:
 Here's a detailed summary that combines the explanations of both the **outer loop** and the **inner loop** of your dynamic programming solution for the "Coin Change" problem, along with how they work together to solve it.
 
 ### Outer Loop: Iterating Over the Amount (`for (int i = 1; i <= amount; i++)`)
