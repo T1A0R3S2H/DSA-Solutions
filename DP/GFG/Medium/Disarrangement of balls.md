@@ -103,6 +103,7 @@ public:
         vector<long long> dp(n + 1);
 
         // Base values
+        dp[0]=1;
         dp[1] = 0;
         dp[2] = 1;
 
