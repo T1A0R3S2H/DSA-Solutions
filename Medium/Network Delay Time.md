@@ -41,7 +41,7 @@ public:
         }
     }
     
-    // Find the maximum time among the reachable nodes
+    // Find the maximum time among the reachable nodes (ie max denotes the time req to reach the farthest node)
     int maxTime=0;
     for (int i=1; i<=n; ++i) {
         if (dist[i]==INT_MAX) return -1;
