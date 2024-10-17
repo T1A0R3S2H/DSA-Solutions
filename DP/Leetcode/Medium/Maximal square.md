@@ -95,6 +95,29 @@ public:
     }
 };
 ```
+
+### Space Complexity - O(1)
+```cpp
+int space_optimization1(int m ,int n, vector<vector<int>>&mat){
+        
+        int maxi = 0;
+        for(int i=n-1; i>=0; i--){
+            for(int j=m-1; j>=0; j--){
+                int down = i<n-1?mat[i+1][j]:0;
+                int right = j<m-1? mat[i][j+1]:0;
+                int diag = i<n-1 and j<m-1? mat[i+1][j+1]:0;
+                // if(dp[i][j] == 1)
+                if(mat[i][j] == 1){
+                    mat[i][j] = 1 + min(down,min(right, diag));
+                    maxi = max(mat[i][j],maxi);
+                }
+            }
+        }
+        return maxi;
+    }
+```
+
+
 ### Explanation
 
 #### 1. `solveRec`
