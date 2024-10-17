@@ -55,56 +55,162 @@ public:
         return maxi * maxi;
     }
 
+    int solveSO(vector<vector<char>>& matrix, int&maxi){
+        int row=matrix.size();
+        int col=matrix[0].size();
+        vector<int> curr(col+1, 0);
+        vector<int> next(col+1, 0);
+        for(int i=row-1; i>=0; i--){
+            for(int j=col-1; j>=0; j--){
+                // apan row-1 and col-1 se chalu kar rahe hai par fir niche i+1 aur j+1 bhi
+                // kar rahe hai, to overflow ho sakta hai, isliye row+1 and col+1 initially
+                int right=curr[j+1];
+                int diag=next[j+1];
+                int down=next[j];
+                if(matrix[i][j]=='1'){
+                    curr[j]=1+min(right, min(diag, down));
+                    maxi=max(maxi, curr[j]);
+                }
+                else {
+                    curr[j]=0;
+                }
+            }
+            next=curr;
+        }
+        return maxi * maxi;
+    }
+
     int maximalSquare(vector<vector<char>>& matrix) {
         int m=matrix.size();
         int n=matrix[0].size();
+        // int maxi=0;
+        // solveRec(matrix, 0, 0, maxi);
+        // return maxi*maxi;
+
         int maxi=0;
-        return solveTab(matrix);
+        // vector<vector<int>>dp(m, vector<int>(n, -1));
+        // solveMem(matrix, 0, 0, maxi, dp);
+        // return solveTab(matrix);
+        return solveSO(matrix, maxi);
     }
 };
 ```
-
 ### Explanation
-The solution employs three methods: recursive (`solveRec`), memoized (`solveMem`), and tabulated (`solveTab`). The main goal is to find the largest square containing only '1's in a binary matrix and return its area.
 
-- **Recursive Method (`solveRec`)**: This method explores the matrix recursively. For each cell that contains '1', it checks the size of squares that can be formed by moving right, diagonally, and downward. The maximum size found is updated in the `maxi` variable.
+#### 1. `solveRec`
+- **Code**: 
+  ```cpp
+  int solveRec(vector<vector<char>>& matrix, int i, int j, int& maxi) {
+      if (i >= matrix.size() || j >= matrix[0].size()) return 0;
+      int right = solveRec(matrix, i, j + 1, maxi);
+      int diag = solveRec(matrix, i + 1, j + 1, maxi);
+      int down = solveRec(matrix, i + 1, j, maxi);
+      if (matrix[i][j] == '1') {
+          int ans = 1 + min(right, min(diag, down));
+          maxi = max(maxi, ans);
+          return ans;
+      } else return 0;
+  }
+  ```
+- **Explanation**: This function uses recursion to explore the matrix. It checks three directions (right, down, and diagonal) for contiguous '1's and updates the maximum size found. If the current cell is '1', it calculates the size of the square that can be formed from that cell.
+- **Time Complexity**: \(O(3^{mn})\) in the worst case, where \(m\) is the number of rows and \(n\) is the number of columns.
+- **Space Complexity**: \(O(m+n)\) due to the recursion stack.
+- **Dry Run**: For a cell containing '1', it checks all three directions recursively until it hits boundaries or '0's, accumulating the size of the largest square found.
 
-- **Memoization Method (`solveMem`)**: This optimizes the recursive approach by storing the results of subproblems in a `dp` array to avoid recomputation. It works similarly to the recursive method but checks the `dp` array before proceeding with calculations.
+#### 2. `solveMem`
+- **Code**: 
+  ```cpp
+  int solveMem(vector<vector<char>>& matrix, int i, int j, int& maxi, vector<vector<int>>& dp) {
+      if (i >= matrix.size() || j >= matrix[0].size()) return 0;
+      if (dp[i][j] != -1) return dp[i][j];
+      int right = solveMem(matrix, i, j + 1, maxi, dp);
+      int diag = solveMem(matrix, i + 1, j + 1, maxi, dp);
+      int down = solveMem(matrix, i + 1, j, maxi, dp);
+      if (matrix[i][j] == '1') {
+          dp[i][j] = 1 + min(right, min(diag, down));
+          maxi = max(maxi, dp[i][j]);
+          return dp[i][j];
+      } else {
+          dp[i][j] = 0;
+          return dp[i][j];
+      }
+  }
+  ```
+- **Explanation**: This function uses memoization to optimize the recursive approach. It caches the results in a `dp` table to avoid redundant calculations, significantly reducing the time complexity.
+- **Time Complexity**: \(O(mn)\) due to the memoization of each cell.
+- **Space Complexity**: \(O(mn)\) for the `dp` table and \(O(m+n)\) for the recursion stack.
+- **Dry Run**: For each cell, it checks if the value is already computed; if not, it performs the same checks as in `solveRec`, storing results in the `dp` array.
 
-- **Tabulation Method (`solveTab`)**: This is the bottom-up dynamic programming approach. It uses a 2D array (`dp`) where `dp[i][j]` stores the size of the largest square whose bottom-right corner is at cell `(i, j)`. The size is determined by the minimum size of squares formed by the adjacent right, down, and diagonal cells.
+#### 3. `solveTab`
+- **Code**: 
+  ```cpp
+  int solveTab(vector<vector<char>>& matrix) {
+      int row = matrix.size();
+      int col = matrix[0].size();
+      vector<vector<int>> dp(row + 1, vector<int>(col + 1, 0));
+      int maxi = 0;
+      for (int i = row - 1; i >= 0; i--) {
+          for (int j = col - 1; j >= 0; j--) {
+              int right = dp[i][j + 1];
+              int diag = dp[i + 1][j + 1];
+              int down = dp[i + 1][j];
+              if (matrix[i][j] == '1') {
+                  dp[i][j] = 1 + min(right, min(diag, down));
+                  maxi = max(maxi, dp[i][j]);
+              } else {
+                  dp[i][j] = 0;
+              }
+          }
+      }
+      return maxi * maxi;
+  }
+  ```
+- **Explanation**: This function employs a tabulation approach, filling up a 2D array from bottom-right to top-left, calculating the largest square that can be formed at each cell.
+- **Time Complexity**: \(O(mn)\) since each cell is processed once.
+- **Space Complexity**: \(O(mn)\) for the `dp` table.
+- **Dry Run**: Iterating from the last row and column, it calculates potential square sizes based on the precomputed values of adjacent cells, updating the maximum square size.
 
-### Time Complexity
-- The time complexity for the tabulated approach is **O(m * n)**, where `m` is the number of rows and `n` is the number of columns in the matrix. This is because we traverse each cell once.
+#### 4. `solveSO`
+- **Code**: 
+  ```cpp
+  int solveSO(vector<vector<char>>& matrix, int& maxi) {
+      int row = matrix.size();
+      int col = matrix[0].size();
+      vector<int> curr(col + 1, 0);
+      vector<int> next(col + 1, 0);
+      for (int i = row - 1; i >= 0; i--) {
+          for (int j = col - 1; j >= 0; j--) {
+              int right = curr[j + 1];
+              int diag = next[j + 1];
+              int down = next[j];
+              if (matrix[i][j] == '1') {
+                  curr[j] = 1 + min(right, min(diag, down));
+                  maxi = max(maxi, curr[j]);
+              } else {
+                  curr[j] = 0;
+              }
+          }
+          next = curr;
+      }
+      return maxi * maxi;
+  }
+  ```
+- **Explanation**: This function uses space optimization by only keeping track of the current and next rows, reducing the space complexity to \(O(n)\).
+- **Time Complexity**: \(O(mn)\), as each cell is processed once.
+- **Space Complexity**: \(O(n)\) for the two 1D arrays (`curr` and `next`).
+- **Dry Run**: Similar to `solveTab`, but uses two arrays to save space. It calculates the potential square size for each '1', storing only necessary values for calculations.
 
-### Space Complexity
-- The space complexity is **O(m * n)** due to the additional `dp` array used for storing intermediate results in the tabulated approach. If using only the recursive or memoization approach, it would be **O(m * n)** for the memoization array but could be optimized to **O(n)** if only the last row of results is stored.
-
-### Dry Run
-Let’s dry run the code with an example:
-
-**Input**:
-```
-matrix = [["1","0","1","0","0"],
-          ["1","0","1","1","1"],
-          ["1","1","1","1","1"],
-          ["1","0","0","1","0"]]
-```
-
-1. **Tabulation Execution**:
-   - Start from the bottom-right corner of the matrix.
-   - Fill the `dp` array according to the conditions.
-   - For cell `(3,4)`: It's '0', so `dp[3][4] = 0`.
-   - For cell `(3,3)`: It's '1', hence `dp[3][3] = 1` (minimum of right, down, and diagonal is 0).
-   - Continue this way until reaching the top-left cell.
-   - The maximum value in the `dp` array is updated as we fill it.
-
-2. The final `dp` array would look something like this:
-```
-   dp = [[0, 0, 1, 0, 0],
-         [1, 0, 1, 1, 1],
-         [1, 1, 2, 2, 2],
-         [1, 0, 0, 1, 0]]
-```
-   - The maximum square size is `2`, so the output will be `2 * 2 = 4`.
-
-This process successfully computes the area of the largest square containing '1's.
+#### 5. `maximalSquare`
+- **Code**: 
+  ```cpp
+  int maximalSquare(vector<vector<char>>& matrix) {
+      int m = matrix.size();
+      int n = matrix[0].size();
+      int maxi = 0;
+      return solveSO(matrix, maxi);
+  }
+  ```
+- **Explanation**: This is the main function that initializes the necessary variables and calls the optimized space solution function.
+- **Time Complexity**: Depends on the called function; here it’s \(O(mn)\).
+- **Space Complexity**: Space is determined by the called function, specifically \(O(n)\) in this case.
+- **Dry Run**: Initializes `maxi` and passes control to `solveSO` to compute the maximal square area.
