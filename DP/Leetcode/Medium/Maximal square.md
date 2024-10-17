@@ -96,26 +96,6 @@ public:
 };
 ```
 
-### Space Complexity - O(1)
-```cpp
-int space_optimization1(int m ,int n, vector<vector<int>>&mat){
-        
-        int maxi = 0;
-        for(int i=n-1; i>=0; i--){
-            for(int j=m-1; j>=0; j--){
-                int down = i<n-1?mat[i+1][j]:0;
-                int right = j<m-1? mat[i][j+1]:0;
-                int diag = i<n-1 and j<m-1? mat[i+1][j+1]:0;
-                // if(dp[i][j] == 1)
-                if(mat[i][j] == 1){
-                    mat[i][j] = 1 + min(down,min(right, diag));
-                    maxi = max(mat[i][j],maxi);
-                }
-            }
-        }
-        return maxi;
-    }
-```
 
 
 ### Explanation
@@ -237,3 +217,56 @@ int space_optimization1(int m ,int n, vector<vector<int>>&mat){
 - **Time Complexity**: Depends on the called function; here it’s \(O(mn)\).
 - **Space Complexity**: Space is determined by the called function, specifically \(O(n)\) in this case.
 - **Dry Run**: Initializes `maxi` and passes control to `solveSO` to compute the maximal square area.
+
+  ---
+### Time Complexity Conclusion
+- The overall time complexity for the algorithm is:
+  \[
+  O(n \times m)
+  \]
+This applies to all versions of the function:
+- **Recursive Version**: While the recursive version is typically \( O(2^{(n+m)}) \) due to overlapping subproblems, it's generally less efficient than the others and not directly comparable here.
+- **Memoization Version**: This is also \( O(n \times m) \) as each cell is computed once and stored.
+- **Tabulation Version**: The same \( O(n \times m) \) as it fills up a DP table.
+- **Space Optimized Version**: This maintains the same \( O(n \times m) \) time complexity for the same reasons.
+
+---
+# Further space optimisation🔥🔥
+```cpp
+int space_optimization1(int m, int n, vector<vector<int>>& mat) {
+    int maxi = 0;
+    for (int i = n - 1; i >= 0; i--) {
+        for (int j = m - 1; j >= 0; j--) {
+            int down = 0;
+            int right = 0;
+            int diag = 0;
+
+            if (i < n - 1) {
+                down = mat[i + 1][j]; // Value directly below
+            }
+            if (j < m - 1) {
+                right = mat[i][j + 1]; // Value directly to the right
+            }
+            if (i < n - 1 && j < m - 1) {
+                diag = mat[i + 1][j + 1]; // Value diagonally down-right
+            }
+
+            if (mat[i][j] == 1) { // If the current cell is 1
+                // Update the current cell with the size of the square that can be formed
+                mat[i][j] = 1 + min(down, min(right, diag));
+                maxi = max(mat[i][j], maxi); // Update the maximum size found
+            }
+        }
+    }
+    return maxi;
+}
+```
+
+### Changes Made:
+- **Removed Ternary Operators**: I replaced the ternary conditions with `if` statements. Each variable (`down`, `right`, `diag`) is initialized to `0`, and its value is updated if the condition for its corresponding index is met.
+
+### Explanation of the Modified Code:
+- The logic and flow remain unchanged. Each variable is set to `0` by default, and if the indices are valid (i.e., within bounds), their values are updated accordingly.
+- This way, the code avoids using ternary operators while keeping the same functionality and efficiency.
+
+This modification makes the code more explicit, which may improve readability for some developers.
