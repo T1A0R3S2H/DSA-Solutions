@@ -1,5 +1,5 @@
-### Code
 
+### Code
 ```cpp
 class Solution {
 public:
@@ -34,18 +34,21 @@ public:
     }
 
     int solveTab(vector<vector<char>>& matrix){
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, 0));
-        int maxi = 0;
-        for(int i = m - 1; i >= 0; i--){
-            for(int j = n - 1; j >= 0; j--){
-                if(matrix[i][j] == '1'){
-                    if(i < m - 1 && j < n - 1)
-                        dp[i][j] = 1 + min(dp[i+1][j], min(dp[i][j+1], dp[i+1][j+1]));
-                    else
-                        dp[i][j] = 1; // Base case for boundary cells
-                    maxi = max(maxi, dp[i][j]);
+        int row=matrix.size();
+        int col=matrix[0].size();
+        vector<vector<int>>dp(row+1, vector<int>(col+1, 0));
+        int maxi=0;
+        for(int i=row-1; i>=0; i--){
+            for(int j=col-1; j>=0; j--){
+                int right=dp[i][j+1];
+                int diag=dp[i+1][j+1];
+                int down=dp[i+1][j];
+                if(matrix[i][j]=='1'){
+                    dp[i][j]=1+min(right, min(diag, down));
+                    maxi=max(maxi, dp[i][j]);
+                }
+                else {
+                    dp[i][j]=0;
                 }
             }
         }
@@ -56,66 +59,52 @@ public:
         int m=matrix.size();
         int n=matrix[0].size();
         int maxi=0;
-        vector<vector<int>>dp(m, vector<int>(n, -1));
-        solveMem(matrix, 0, 0, maxi, dp);
-        return maxi*maxi;
+        return solveTab(matrix);
     }
 };
 ```
 
 ### Explanation
+The solution employs three methods: recursive (`solveRec`), memoized (`solveMem`), and tabulated (`solveTab`). The main goal is to find the largest square containing only '1's in a binary matrix and return its area.
 
-The problem aims to find the largest square containing only '1's in a given binary matrix and return its area.
+- **Recursive Method (`solveRec`)**: This method explores the matrix recursively. For each cell that contains '1', it checks the size of squares that can be formed by moving right, diagonally, and downward. The maximum size found is updated in the `maxi` variable.
 
-- **`solveRec`**: This function recursively explores every cell in the matrix to find the size of the largest square. It checks three possible directions: right, diagonal, and down. If the current cell is '1', it calculates the minimum square size that can be formed using those three directions. The largest square size (`maxi`) is updated during the recursion. Base cases occur when the indices go out of bounds.
-  
-- **`solveMem`**: This is a dynamic programming version of the recursive solution using memoization (`dp` table). It avoids recalculating the results of subproblems by storing them in the `dp` table. Like `solveRec`, it calculates the size of the square for each cell but checks the memoized result before recursion.
-  
-- **`solveTab`**: This function uses a bottom-up approach with tabulation to fill the `dp` table. For each cell containing '1', it calculates the size of the square that can be formed at that point, considering the right, down, and diagonal cells. The `maxi` variable stores the largest square size found during the traversal. The area is then returned by squaring `maxi`.
-  
-- **`maximalSquare`**: This function initiates the solution, either by calling `solveMem` or `solveRec`. It returns the area of the largest square, calculated as `maxi * maxi`.
+- **Memoization Method (`solveMem`)**: This optimizes the recursive approach by storing the results of subproblems in a `dp` array to avoid recomputation. It works similarly to the recursive method but checks the `dp` array before proceeding with calculations.
+
+- **Tabulation Method (`solveTab`)**: This is the bottom-up dynamic programming approach. It uses a 2D array (`dp`) where `dp[i][j]` stores the size of the largest square whose bottom-right corner is at cell `(i, j)`. The size is determined by the minimum size of squares formed by the adjacent right, down, and diagonal cells.
 
 ### Time Complexity
-
-- **Recursive Solution (`solveRec`)**: The time complexity of the recursive solution is exponential due to overlapping subproblems. Each cell can potentially lead to multiple recursive calls.
-  - **Time Complexity**: \(O(3^{m \times n})\), where \(m\) is the number of rows and \(n\) is the number of columns.
-  
-- **Memoization Solution (`solveMem`)**: With memoization, the overlapping subproblems are avoided by storing the results of each subproblem in the `dp` table.
-  - **Time Complexity**: \(O(m \times n)\) because every cell is computed only once.
-
-- **Tabulation Solution (`solveTab`)**: The bottom-up approach iterates over all the cells in the matrix, calculating the square size for each cell once.
-  - **Time Complexity**: \(O(m \times n)\), where \(m\) is the number of rows and \(n\) is the number of columns.
+- The time complexity for the tabulated approach is **O(m * n)**, where `m` is the number of rows and `n` is the number of columns in the matrix. This is because we traverse each cell once.
 
 ### Space Complexity
-
-- **Recursive Solution (`solveRec`)**: The recursive solution uses stack space proportional to the number of recursive calls. There is no extra storage besides that.
-  - **Space Complexity**: \(O(m + n)\) due to recursion stack depth.
-
-- **Memoization Solution (`solveMem`)**: The memoization solution requires additional space for the `dp` table, which is of size \(m \times n\).
-  - **Space Complexity**: \(O(m \times n)\) for the `dp` table.
-
-- **Tabulation Solution (`solveTab`)**: The tabulation method also requires a `dp` table of size \(m \times n\).
-  - **Space Complexity**: \(O(m \times n)\) for the `dp` table.
+- The space complexity is **O(m * n)** due to the additional `dp` array used for storing intermediate results in the tabulated approach. If using only the recursive or memoization approach, it would be **O(m * n)** for the memoization array but could be optimized to **O(n)** if only the last row of results is stored.
 
 ### Dry Run
+Let’s dry run the code with an example:
 
-Let’s consider the following example:
-
-#### Input:
-```cpp
+**Input**:
+```
 matrix = [["1","0","1","0","0"],
           ["1","0","1","1","1"],
           ["1","1","1","1","1"],
           ["1","0","0","1","0"]]
 ```
 
-#### Dry Run of `solveTab`:
+1. **Tabulation Execution**:
+   - Start from the bottom-right corner of the matrix.
+   - Fill the `dp` array according to the conditions.
+   - For cell `(3,4)`: It's '0', so `dp[3][4] = 0`.
+   - For cell `(3,3)`: It's '1', hence `dp[3][3] = 1` (minimum of right, down, and diagonal is 0).
+   - Continue this way until reaching the top-left cell.
+   - The maximum value in the `dp` array is updated as we fill it.
 
-- Start at cell (3,0): `matrix[3][0] == '1'`, so `dp[3][0] = 1`.
-- Continue moving left to right, updating the `dp` table. For example, `dp[2][2] = 2`, meaning a 2x2 square can be formed there.
-- After processing all the cells, `maxi = 2`, indicating the largest square is 2x2.
-  
-#### Output:
-```cpp
-4
+2. The final `dp` array would look something like this:
 ```
+   dp = [[0, 0, 1, 0, 0],
+         [1, 0, 1, 1, 1],
+         [1, 1, 2, 2, 2],
+         [1, 0, 0, 1, 0]]
+```
+   - The maximum square size is `2`, so the output will be `2 * 2 = 4`.
+
+This process successfully computes the area of the largest square containing '1's.
