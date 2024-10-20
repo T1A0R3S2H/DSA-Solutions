@@ -70,6 +70,8 @@ int solveTab(vector<int>& satisfaction) {
         int n=satisfaction.size();
         sort(satisfaction.begin(), satisfaction.end());
         vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+
+        // n to 0 aana chahiye tha, but n ka case to handle ho gaya (index==n) return 0
         for (int index=n-1; index>=0; index--) {
             for (int time=index; time>=0; time--) {
                 int include=satisfaction[index]* (time+1) + dp[index+1][time+1];
