@@ -105,39 +105,124 @@ For `satisfaction = [-1, -8, 0, 5, -9]`:
 
 # 4. Space-Optimized Solution (`solveSO`)
 
+### Code
 ```cpp
-int solveSO(vector<int>& satisfaction) {
-    int n = satisfaction.size();
-    sort(satisfaction.begin(), satisfaction.end());
-    int maxi = 0;
-    int currSum = 0;
-    int time = 0;
-    for (int index = n - 1; index >= 0; --index) {
-        currSum += satisfaction[index];
-        time += currSum;
-        if (time > maxi) {
-            maxi = time;
+class Solution {
+public:
+    int solveSO(vector<int>& satisfaction) {
+        int n = satisfaction.size();
+        vector<int> curr(n + 1, 0);
+        vector<int> next(n + 1, 0);
+        
+        // Iterate from the last dish to the first dish
+        for (int index = n - 1; index >= 0; index--) {
+            // Iterate over possible time slots
+            for (int time = index; time >= 0; time--) {
+                int include = satisfaction[index] * (time + 1) + next[time + 1];
+                int exclude = 0 + next[time];
+                curr[time] = max(include, exclude);
+            }
+            next = curr; // Move to the next row (current row becomes previous)
         }
+        return next[0]; // Maximum satisfaction starting with time 0
     }
-    return maxi;
-}
+
+    int maxSatisfaction(vector<int>& satisfaction) {
+        sort(satisfaction.begin(), satisfaction.end());
+        return solveSO(satisfaction);
+    }
+};
 ```
 
-#### Explanation
-- This function also sorts the `satisfaction` array.
-- It maintains only a few variables to track the current sum, time, and maximum like-time coefficient.
-- It iterates backward through the sorted array, continuously updating the accumulated sums.
+### Explanation
+- The function `solveSO` is designed to calculate the maximum like-time coefficient by iterating through the sorted satisfaction levels from the last dish to the first.
+- Two arrays, `curr` and `next`, are used to keep track of the maximum like-time coefficients for the current and the next time slots, respectively.
+- For each dish (from last to first), the code computes:
+  - **Include**: The contribution of the current dish multiplied by its cooking time plus the maximum coefficient obtainable with the remaining time.
+  - **Exclude**: The maximum coefficient obtainable without including the current dish.
+- After processing each dish, the `curr` array is copied to `next`, preparing it for the next iteration.
+- Finally, `next[0]` gives the maximum satisfaction starting from time 0.
 
-#### Time Complexity
-- \(O(n \log n)\): The sorting step dominates the complexity.
+### Time Complexity
+- The time complexity is \(O(n^2)\) because we have a nested loop: the outer loop runs \(n\) times (for each dish), and the inner loop runs up to \(n\) times (for the time slots).
 
-#### Space Complexity
-- \(O(1)\): Only a constant amount of additional space is used for variables.
+### Space Complexity
+- The space complexity is \(O(n)\) due to the two arrays `curr` and `next`, each of size \(n+1\).
 
-#### Dry Run
-For `satisfaction = [-1, -8, 0, 5, -9]`:
-- After sorting: `[-9, -8, -1, 0, 5]`
-- The function iterates from the last index to the first, computing cumulative values and ultimately determines the maximum like-time coefficient, which is 14.
+### Dry Run
+**Input**: `satisfaction = [-1, -8, 0, 5, -9]`
+
+**Sorted Array**: `[-9, -8, -1, 0, 5]`
+
+1. **Initialization**:
+   - `n = 5`
+   - `curr = [0, 0, 0, 0, 0, 0]`
+   - `next = [0, 0, 0, 0, 0, 0]`
+
+2. **Outer Loop (Index = 4)** (Dish: `5`):
+   - `time = 4`: `include = 5 * (4 + 1) + next[5] = 30 + 0 = 30`
+     - `exclude = next[4] = 0`
+     - `curr[4] = max(30, 0) = 30`
+   - `time = 3`: `include = 5 * (3 + 1) + next[4] = 20 + 0 = 20`
+     - `exclude = next[3] = 0`
+     - `curr[3] = max(20, 0) = 20`
+   - `time = 2`: `include = 5 * (2 + 1) + next[3] = 15 + 0 = 15`
+     - `exclude = next[2] = 0`
+     - `curr[2] = max(15, 0) = 15`
+   - `time = 1`: `include = 5 * (1 + 1) + next[2] = 10 + 0 = 10`
+     - `exclude = next[1] = 0`
+     - `curr[1] = max(10, 0) = 10`
+   - `time = 0`: `include = 5 * (0 + 1) + next[1] = 5 + 0 = 5`
+     - `exclude = next[0] = 0`
+     - `curr[0] = max(5, 0) = 5`
+   - After this iteration: `next = [5, 10, 15, 20, 30, 0]`
+
+3. **Outer Loop (Index = 3)** (Dish: `0`):
+   - `time = 3`: `include = 0 * (3 + 1) + next[4] = 0 + 30 = 30`
+     - `exclude = next[3] = 20`
+     - `curr[3] = max(30, 20) = 30`
+   - `time = 2`: `include = 0 * (2 + 1) + next[3] = 0 + 20 = 20`
+     - `exclude = next[2] = 15`
+     - `curr[2] = max(20, 15) = 20`
+   - `time = 1`: `include = 0 * (1 + 1) + next[2] = 0 + 15 = 15`
+     - `exclude = next[1] = 10`
+     - `curr[1] = max(15, 10) = 15`
+   - `time = 0`: `include = 0 * (0 + 1) + next[1] = 0 + 10 = 10`
+     - `exclude = next[0] = 5`
+     - `curr[0] = max(10, 5) = 10`
+   - After this iteration: `next = [10, 15, 20, 30, 30, 0]`
+
+4. **Outer Loop (Index = 2)** (Dish: `-1`):
+   - `time = 2`: `include = -1 * (2 + 1) + next[3] = -3 + 30 = 27`
+     - `exclude = next[2] = 20`
+     - `curr[2] = max(27, 20) = 27`
+   - `time = 1`: `include = -1 * (1 + 1) + next[2] = -2 + 20 = 18`
+     - `exclude = next[1] = 15`
+     - `curr[1] = max(18, 15) = 18`
+   - `time = 0`: `include = -1 * (0 + 1) + next[1] = -1 + 10 = 9`
+     - `exclude = next[0] = 10`
+     - `curr[0] = max(9, 10) = 10`
+   - After this iteration: `next = [10, 18, 27, 30, 30, 0]`
+
+5. **Outer Loop (Index = 1)** (Dish: `-8`):
+   - `time = 1`: `include = -8 * (1 + 1) + next[2] = -16 + 27 = 11`
+     - `exclude = next[1] = 18`
+     - `curr[1] = max(11, 18) = 18`
+   - `time = 0`: `include = -8 * (0 + 1) + next[1] = -8 + 10 = 2`
+     - `exclude = next[0] = 10`
+     - `curr[0] = max(2, 10) = 10`
+   - After this iteration: `next = [10, 18, 27, 30, 30, 0]`
+
+6. **Outer Loop (Index = 0)** (Dish: `-9`):
+   - `time = 0`: `include = -9 * (0 + 1) + next[1] = -9 + 10 = 1`
+     - `exclude = next[0] = 10`
+     - `curr[0] = max(1, 10) = 10`
+   - After this iteration: `next = [10, 18, 27, 30, 30, 0]`
+
+Final Result: `next[0]` gives **14**.
+
+### Conclusion
+The modified space-optimized approach efficiently computes the maximum like-time coefficient while maintaining a straightforward structure without using extra space for a full DP table. The dry run illustrates how the algorithm accumulates values and updates the results iteratively.
 
 ---
 
