@@ -67,18 +67,19 @@ For `satisfaction = [-1, -8, 0, 5, -9]`:
 
 ```cpp
 int solveTab(vector<int>& satisfaction) {
-    int n=satisfaction.size();
-    sort(satisfaction.begin(), satisfaction.end());
-    vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-    for (int index=n-1; index>=0; --index) {
-        for (int time=0; time<n; ++time) {
-            int include=satisfaction[index]* (time+1) + dp[index+1][time+1];
-            int exclude=0+dp[index+1][time];
-            dp[index][time]=max(include, exclude);
+        int n=satisfaction.size();
+        sort(satisfaction.begin(), satisfaction.end());
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+        for (int index=n-1; index>=0; index--) {
+            for (int time=index; time>=0; time--) {
+                int include=satisfaction[index]* (time+1) + dp[index+1][time+1];
+                int exclude=0+dp[index+1][time];
+                dp[index][time]=max(include, exclude);
+            }
         }
+        // anser hai: all dishes starting with time 0
+        return dp[0][0];
     }
-    return dp[0][0];
-}
 ```
 
 #### Explanation
