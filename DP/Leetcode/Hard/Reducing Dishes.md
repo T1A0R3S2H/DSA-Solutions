@@ -1,5 +1,5 @@
 # 1. Recursive Solution (`solveRec`)
-
+### Code
 ```cpp
 int solveRec(vector<int>& satisfaction, int index, int time){
     int n=satisfaction.size();
