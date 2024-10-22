@@ -1,3 +1,4 @@
+# Firstly, four general approaches
 ### Code
 
 ```cpp
@@ -169,3 +170,75 @@ Finally, `nextRow[0]` holds the maximum length of the longest increasing subsequ
 
 ### Result
 The result of `lengthOfLIS(nums)` is **4**, corresponding to the longest increasing subsequence: `[2, 3, 7, 101]`.
+
+
+# Now, Binary search with DP
+Here's the CETSD (Code + Explanation, Time Complexity, Space Complexity, and Dry Run) for your `solveBS` function, along with an explanation of the logic for applying dynamic programming with binary search to the Longest Increasing Subsequence (LIS) problem.
+
+### Code
+```cpp
+int solveBS(vector<int>& nums){
+        int n=nums.size();
+        if(n==0) return 0;
+        vector<int> ans;
+        ans.push_back(nums[0]);
+        for(int i=1; i<n; i++){
+            if(nums[i]>ans.back()){
+                ans.push_back(nums[i]);
+            }
+            else{
+                int index=lower_bound(ans.begin(), ans.end(), nums[i])-ans.begin();
+                ans[index]=nums[i];
+            }
+        }
+        return ans.size();
+    }
+```
+
+### Explanation
+1. **Purpose**: This function calculates the length of the longest increasing subsequence (LIS) in a given array of integers `nums`.
+
+2. **Logic**:
+   - **Dynamic Programming Insight**: The idea is to maintain a dynamic list (`ans`) that stores the smallest possible tail values for all increasing subsequences found so far. The length of this list at the end represents the length of the longest increasing subsequence.
+   - **Using Binary Search**: The `lower_bound` function is utilized to efficiently find the position in `ans` where the current number can replace an existing value or be appended. This keeps the list `ans` sorted and allows for logarithmic time complexity in the search operation, making the overall approach efficient.
+
+3. **How It Works**:
+   - Start by checking if the input list is empty. If it is, return 0 since there are no elements to form a subsequence.
+   - Initialize `ans` with the first element of `nums`. This acts as the starting point for comparisons.
+   - Iterate through the `nums` array from the second element onwards:
+     - If the current element is greater than the last element in `ans`, it can extend the longest increasing subsequence. Thus, it is appended to `ans`.
+     - If not, use `lower_bound` to find the position of the smallest element in `ans` that is greater than or equal to the current element. Replace that element with the current element, which ensures that `ans` continues to represent the smallest tail values of subsequences.
+   - Finally, return the size of `ans`, which gives the length of the longest increasing subsequence.
+
+### Time Complexity
+- **O(n log n)**: The loop iterates through the `nums` array once (O(n)), and for each element, the `lower_bound` function is called, which operates in O(log n) time. Therefore, the overall time complexity is O(n log n).
+
+### Space Complexity
+- **O(n)**: In the worst case, the `ans` vector can store all elements of `nums` if they are all increasing, leading to a space complexity of O(n). However, it is typically smaller as it only retains the smallest tails.
+
+### Dry Run
+Let’s dry run the function with an example:
+
+#### Example Input:
+```cpp
+nums = [10, 9, 2, 5, 3, 7, 101, 18]
+```
+
+#### Dry Run Steps:
+1. Initialize `ans = []`.
+2. Start by adding the first element:
+   - `ans = [10]`
+3. Iterate through `nums`:
+   - `i = 1`: `nums[1] = 9`, replace `ans[0]` → `ans = [9]`
+   - `i = 2`: `nums[2] = 2`, replace `ans[0]` → `ans = [2]`
+   - `i = 3`: `nums[3] = 5`, append → `ans = [2, 5]`
+   - `i = 4`: `nums[4] = 3`, replace `ans[1]` → `ans = [2, 3]`
+   - `i = 5`: `nums[5] = 7`, append → `ans = [2, 3, 7]`
+   - `i = 6`: `nums[6] = 101`, append → `ans = [2, 3, 7, 101]`
+   - `i = 7`: `nums[7] = 18`, replace `ans[3]` → `ans = [2, 3, 7, 18]`
+4. Final `ans` = `[2, 3, 7, 18]` → length = **4**.
+
+### Summary of Logic for Binary Search
+- The application of binary search here allows us to maintain a dynamically growing list of smallest end values for increasing subsequences. By replacing values in `ans`, we ensure that we keep the potential for longer increasing subsequences open. This optimization is crucial for achieving the efficient O(n log n) time complexity, distinguishing it from a naive O(n²) solution where we would check each pair of elements. 
+
+This approach combines the principles of dynamic programming with efficient searching, making it a powerful method for solving the LIS problem.
