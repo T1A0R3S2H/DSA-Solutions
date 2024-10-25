@@ -7,7 +7,7 @@ Here’s a breakdown of why:
 
 This setup is a key constraint of the problem, which forces you to maximize your selections from non-adjacent slices while still picking `n` slices in total.
 
-### Intuition
+### Intuition of the solution
 
 The problem is a variation of the "House Robber" problem, but applied to a circular array with an additional constraint: you and your friends cannot take adjacent slices, and you must make a total of exactly `n` selections. To solve this, we need to find the maximum sum of slice sizes that you can pick while adhering to these constraints.
 
