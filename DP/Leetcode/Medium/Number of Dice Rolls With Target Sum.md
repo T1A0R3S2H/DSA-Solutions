@@ -24,7 +24,7 @@ The `solveRec` function uses recursion to count the ways to achieve a target sum
 - If the `target` is less than 0, return 0 (no way to achieve a negative target).
 - If there are no dice left and the target is not zero, return 0.
 - If the target is 0 and there are no dice left, return 1 (one way to achieve 0).
-- Iterate through each face of the dice (1 to `is`), recursively calling `solveRec` for the next die and the remaining target.
+- Iterate through each face of the dice (1 to `faces`), recursively calling `solveRec` for the next die and the remaining target.
 
 #### Time Complexity
 - \(O(k^n)\), where \(k\) is the number of faces and \(n\) is the number of dice.
