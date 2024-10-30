@@ -21,7 +21,7 @@ We use dynamic programming to make a choice at each slice:
 
 The goal is to maximize the sum of slices selected while ensuring that no adjacent slices are picked.
 
-### Approach 1: Memoization
+### Approach 1: Recursion + Memoization
 
 #### Base Case:
 - If `n == 0` (no more slices to pick) or if the starting index (`sindex`) exceeds the ending index (`eindex`), return `0`, as no valid selection can be made.
