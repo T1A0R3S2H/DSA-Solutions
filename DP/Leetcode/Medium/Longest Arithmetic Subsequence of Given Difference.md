@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/2f7fa70b-b17b-40db-9fc3-17ccd27ea35f)
 ### **Code:**
 ```cpp
 class Solution {
