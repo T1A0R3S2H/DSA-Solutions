@@ -1,4 +1,4 @@
-### C++ Code
+### C++ Code:
 ```cpp
 class Solution {
 public:
