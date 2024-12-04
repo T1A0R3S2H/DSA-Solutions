@@ -8,7 +8,7 @@ public:
         if (n==1) return 1;
         if (dp[n]!=-1) return dp[n];
 
-        int maxProduct=0;
+        int maxProduct=1;
         // Try breaking n into two parts i and (n-i)
         for (int i=1; i<n; i++) {
             // Either take i and multiply it with (n-i)
