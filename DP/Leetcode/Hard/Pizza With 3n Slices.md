@@ -33,7 +33,7 @@ The goal is to maximize the sum of slices selected while ensuring that no adjace
   - Skipping the current slice and solving for `sindex + 1`.
 - Store and return the maximum of these two options.
 
-**C++ Code:**
+**Code:**
 
 ```cpp
 class Solution {
