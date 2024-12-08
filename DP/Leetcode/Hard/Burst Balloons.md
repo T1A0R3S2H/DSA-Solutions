@@ -1,5 +1,5 @@
 
-#### Code:
+#### C++ Code:
 
 ```cpp
 class Solution {
