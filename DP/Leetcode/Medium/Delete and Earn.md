@@ -257,3 +257,44 @@ public:
 - **Answer: `6`**.
 
 --- 
+
+
+## Diff bw the approaches 🔥🔥:
+
+| **Aspect**                    | **Frequency Map + DP (Bottom-Up)**                                         | **Memoization + Recursion (Top-Down)**                                         |
+|-------------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Approach Type**              | Bottom-Up Dynamic Programming                                              | Top-Down Recursion with Memoization                                            |
+| **Core Idea**                  | - Build a frequency map of elements.                                        | - Recursively compute the maximum points by either including or excluding a number. |
+|                               | - Use a `dp` array to iteratively compute the maximum score.                | - Use memoization to store previously computed results and avoid redundant work. |
+| **Time Complexity**            | **O(n + m)**<br> - `n`: Length of input array `nums`.<br> - `m`: Maximum value in the array (for creating `dp` array). | **O(n + m)**<br> - `n`: Length of input array `nums`.<br> - `m`: Maximum value in the array (for recursion calls). |
+| **Space Complexity**           | **O(m)**<br> - `m`: Maximum value in the array (for storing frequencies and `dp` array). | **O(m)**<br> - `m`: Maximum value in the array (for memoization and recursion stack). |
+| **Data Structures Used**       | - `unordered_map` (for frequency map).<br> - `vector<int>` (for `dp` array). | - `unordered_map` (for frequency map).<br> - `vector<int>` (for memoization). |
+| **Iteration/Recursion**        | Iterative (Bottom-Up) approach using a loop.                               | Recursive approach with memoization (Top-Down).                               |
+| **Complexity of Implementation**| Relatively straightforward and easy to implement.                        | Requires handling recursion, base cases, and memoization.                     |
+| **Space Optimized**            | The space usage is relatively low since we only store the frequency map and `dp` array. | Space is mainly used by the memoization table and recursion stack.            |
+| **Handling of Large Inputs**   | Good for large inputs with a large range of numbers (`m`).                 | Efficient with memoization, but could hit recursion depth limit for large `m`. |
+| **Performance on Sparse Arrays**| Efficient because the `dp` array only considers relevant numbers.         | May result in redundant calls if not optimized.                              |
+| **Code Simplicity**            | Simple to understand and implement in a bottom-up manner.                 | More complex due to recursion and memoization setup.                         |
+| **Base Case**                  | Base case is handled in the iterative DP loop (starting with `dp[0]` and `dp[1]`). | Base case is handled in the recursion (e.g., `solveMem(num <= 0)` returning 0). |
+| **Optimal Substructure**       | The solution for each `i` is derived from the previously computed values of `i-1` and `i-2`. | The solution for each `num` is recursively calculated, considering whether to take or skip the number. |
+
+### **Summary**:
+
+- **Time Complexity**: Both approaches have a time complexity of **O(n + m)**, where `n` is the length of the array and `m` is the maximum value in the array. However, in practice, the bottom-up approach might be a bit faster because it avoids the overhead of recursion.
+  
+- **Space Complexity**: Both approaches have space complexity of **O(m)**, where `m` is the maximum value in the array (since both use a `dp` array or memoization table).
+
+- **Ease of Implementation**:
+  - The **bottom-up dynamic programming** approach is simpler and more intuitive. It's easier to implement because you just need to iterate over the `nums` array and calculate the values iteratively using a `dp` array.
+  - The **top-down recursion with memoization** approach involves more setup (handling base cases, recursion, and memoization) and is slightly harder to implement. However, it's more flexible if you are more comfortable with recursive solutions.
+
+- **Handling of Sparse or Large Arrays**:
+  - In **sparse arrays**, both approaches should work efficiently as the `dp` array or memoization table will only consider the numbers that appear in the array.
+  - **Large arrays** (with large `m`) might require more space, but the memoization approach could hit the recursion depth limit if `m` is too large.
+
+### Final Choice:
+
+- If you're looking for a **simpler and more efficient** approach (especially when it comes to large inputs), the **bottom-up DP** approach is preferred.
+- If you prefer **recursive solutions** and are comfortable with handling recursion and memoization, the **top-down memoization** approach can be a good choice.
+
+
