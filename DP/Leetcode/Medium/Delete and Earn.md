@@ -126,5 +126,3 @@ public:
 - **Answer: `6`**.
 
 --- 
-
-Let me know if you need further clarifications! 😊
