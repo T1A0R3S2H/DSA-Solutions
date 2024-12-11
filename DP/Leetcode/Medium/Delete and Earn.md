@@ -1,6 +1,6 @@
 # Method 1 🔥🔥:
 
-### Code:
+### C++ Code:
 
 ```cpp
 class Solution {
