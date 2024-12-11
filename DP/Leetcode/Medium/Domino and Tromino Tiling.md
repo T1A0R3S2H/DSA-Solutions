@@ -1,5 +1,64 @@
 # 🔥🔥The most `observation-based` question related to DP seen so far!
 
+Finding the recurrence relation can be a challenging task, especially for problems like this where you are tiling a 2xN grid with two types of tiles: dominoes (2x1) and trominos (L-shaped). The difficulty in deriving the recurrence relation lies in understanding how the problem can be broken down into smaller subproblems.
+
+Here’s a breakdown of how to approach finding the recurrence relation:
+
+### **Step-by-Step Breakdown of Finding the Recurrence Relation**
+
+1. **Understanding the Problem:**
+   - You need to tile a 2xN grid.
+   - You can use a domino (which can be placed vertically or horizontally) or a tromino (an L-shaped tile).
+   - You are tasked with finding how many ways you can tile the grid.
+
+2. **Start with Base Cases:**
+   - Before jumping into the recurrence, it’s important to establish base cases:
+     - For `n = 1` (a 2x1 grid), there’s only one way to tile it using a vertical domino. Hence, `dp[1] = 1`.
+     - For `n = 2` (a 2x2 grid), you can fill it either using two vertical dominoes or two horizontal dominoes. Hence, `dp[2] = 2`.
+     - For `n = 3`, there are five ways to tile a 2x3 grid. You can deduce this from manually counting the tiling possibilities, which leads to `dp[3] = 5`.
+
+3. **Identify Patterns (Recurrence Relation):**
+   Now, to find the recurrence, you need to figure out how the number of ways to tile a 2xN grid can be expressed in terms of smaller subproblems. This involves considering the possibilities for the last column (or last few columns) of the grid.
+
+4. **Consider Possible Tile Placements:**
+   - **Placing a vertical domino:**
+     If you place a vertical domino in the last column, you have reduced the problem to tiling a 2x(N-1) grid. Hence, the number of ways to tile a 2x(N-1) grid will contribute to the solution for tiling a 2xN grid. This gives a term of `dp[N-1]` in the recurrence.
+   
+   - **Placing two horizontal dominoes:**
+     If you place two horizontal dominoes in the last two columns (stacked vertically), you reduce the problem to tiling a 2x(N-2) grid. This gives a contribution of `dp[N-2]` to the solution.
+
+   - **Placing a tromino:**
+     If you place a tromino (an L-shaped tile), it covers three cells, leaving a 2x(N-3) grid to be tiled. Hence, the number of ways to tile a 2x(N-3) grid will contribute to the solution for tiling a 2xN grid. This gives a contribution of `dp[N-3]` to the solution.
+
+5. **Forming the Recurrence:**
+   Combining the above observations, the recurrence relation can be formulated as:
+   \[
+   dp[N] = 2 \times dp[N-1] + dp[N-3]
+   \]
+   Here:
+   - `2 * dp[N-1]` accounts for the two ways to fill the last column with a vertical domino or two horizontal dominoes.
+   - `dp[N-3]` accounts for the cases where a tromino is placed in the last part of the grid.
+
+6. **Modulo Operation:**
+   Since the answer can be very large, we take the result modulo `10^9 + 7` to ensure that the number stays within the limits of the integer type.
+
+### **Challenges in Deriving the Recurrence:**
+
+- **Understanding the Problem Structure:** The key challenge is identifying how each tile (domino or tromino) affects the rest of the grid and how you can break down the problem into smaller subproblems.
+  
+- **Edge Cases:** You need to account for small grids like 1x1, 2x2, etc., which can require special handling in the recurrence (base cases).
+  
+- **Tile Placement Variations:** You need to consider all possible ways that a tile can be placed and how it affects the rest of the grid. For example, how does placing a vertical domino in one column impact the grid compared to placing a tromino? The fact that a tromino is L-shaped introduces complexity.
+
+### **Summary:**
+- Finding the recurrence relation requires understanding how the grid can be tiled step-by-step, reducing the problem size with each placement of a tile.
+- The process can be challenging because it involves analyzing how different tile placements (dominoes and trominos) impact the remaining grid.
+- Once you identify these relationships and base cases, you can formulate the recurrence and solve the problem efficiently using dynamic programming.
+
+The difficulty is in **breaking the problem down into smaller subproblems** and **understanding how tile placements affect the grid**, which is a key part of dynamic programming problems.
+
+---
+
 
 ### **Problem Summary:**
 You are given a `2 x n` board and need to find the number of ways to tile the board using **dominoes (2x1)** and **trominoes (L-shaped, covering 3 squares)**. The answer should be returned modulo `10^9 + 7`.
