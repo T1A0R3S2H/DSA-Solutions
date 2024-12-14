@@ -33,6 +33,12 @@ public:
 
 #### **Explanation:**
 
+0. **NO INITIALISATION**:
+
+**Initialization with `0` instead of `-1`:** Is question mein humne DP table ko **`unordered_map`** se initialize kiya hai, aur isme default value **`0`** hoti hai. Matlab agar koi state `(a, b)` compute nahi hui hai, toh vo automatically **`0`** return karegi. Iska matlab yeh hai ki **uncomputed states** ko track karne ke liye humne **`0`** ka use kiya hai. Ab **`0`** ek valid probability bhi ho sakti hai (jaise jab soup B khatam ho jaata hai), isliye humne **`-1`** ka use nahi kiya. Agar hum **`-1`** use karte, toh confusion ho sakta tha ki `-1` ka matlab state calculate nahi hui hai ya `0` ka matlab koi valid state hai. Isliye **`0`** ko default value banaya gaya hai, taki uncomputed states ko easily track kiya jaa sake bina kisi confusion ke.
+
+**Why Not `-1`?** Usually, dusre DP problems mein hum **`-1`** se initialization karte hain, taaki hum easily check kar sakein ki koi state calculated hai ya nahi. Lekin is question mein **`unordered_map`** ka use kiya gaya hai, jo **default value** **`0`** return karta hai jab koi state computed nahi hoti. Agar hum **`-1`** use karte, toh **`0`** aur **`-1`** ke beech confusion hota, kyunki **`0.0`** ek valid probability ho sakti hai (jab B soup khatam ho jata hai), aur agar **`-1`** ko use karte, toh yeh state ke compute na hone ko indicate karne ka ek potential problem hota. Isliye humne **`0`** ko default value rakha hai, aur **unordered_map** ka advantage liya hai, jisme uncomputed states automatically **`0`** ke saath track hote hain, aur jise hum baad mein compute karke store kar lete hain.
+
 1. **solveMem Function**:
    - Yeh recursive function hai jo soup A aur B ke remaining volumes ke basis par probability calculate karta hai ki soup A pehle khatam hoga, ya dono ek saath khatam honge.
    - **Base Cases**:
