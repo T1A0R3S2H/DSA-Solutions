@@ -1,4 +1,127 @@
-# Method 1 (using set, w/o DP):
+# Method 1 (using DP)
+### Code:
+```cpp
+class Solution {
+public:
+    int solveMem(vector<int>& arr, unordered_map<int, int>& index, vector<vector<int>>& dp, int j, int k) {
+        if(dp[j][k] != -1) return dp[j][k];
+        int n = arr.size();
+        int i_value = arr[k] - arr[j];
+        int result=2;
+        if (index.count(i_value) && i_value < arr[j]) {
+            int i = index[i_value];
+            result = solveMem(arr, index, dp, i, j) + 1;
+            
+        } 
+        dp[j][k]=result;
+        return result;
+    }
+
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int n = arr.size();
+        unordered_map<int, int> index;
+        for (int i = 0; i < n; i++) {
+            index[arr[i]] = i;
+        }
+       
+        vector<vector<int>> dp(n, vector<int>(n, -1)); 
+        int longest = 0;
+        for (int k = 0; k < n; k++) {
+            for (int j = 0; j < k; j++) {
+                longest = max(longest, solveMem(arr, index, dp, j, k));
+            }
+        }
+        if(longest>2){
+            return longest;
+        }
+        else return 0;
+    }
+};
+
+
+
+// class Solution {
+// public:
+//     int lenLongestFibSubseq(vector<int>& arr) {
+//         int n=arr.size();
+//         unordered_map<int, int> index;
+//         for (int i=0; i<n; i++) {
+//             index[arr[i]]=i;
+//         }
+//         vector<vector<int>> dp(n, vector<int>(n, 0));
+//         int longest=0;
+//         for (int k=0; k<n; k++) {
+//             for (int j=0; j<k; j++) {
+//                 int i_value=arr[k]-arr[j];
+//                 if (index.count(i_value) && i_value<arr[j]) {
+//                     int i=index[i_value];
+                   
+//                     dp[j][k]=dp[i][j]+1;
+//                     longest=max(longest, dp[j][k]);
+//                 } 
+//                 else dp[j][k]=2;
+//             }
+//         }
+//         if (longest>0) return longest;
+//         else return 0;
+//     }
+// };
+```
+
+### **ETSD Analysis**
+
+**1. Explanation:**
+
+
+
+**2. Time Complexity:**
+
+*   **Initialization:** The loop that populates the `index` map runs once for every element in the `arr`, which is `O(n)`.
+*   **Nested Loops:** The primary computation is within the nested loops which iterate through all pairs `(j, k)` and where j<k. It is `O(n^2)`.
+*  **Hashmap Lookup and other operations**: The hashmap lookup operation `index.count()` is `O(1)` on average and `index[]` lookup and other operations in the loop are also `O(1)`.
+*   **Overall:** The time complexity is dominated by the nested loops and hence is **O(n^2)**.
+
+**3. Space Complexity:**
+
+*   **`index` Map:** The `unordered_map` `index` stores, at max, all elements of `arr`. So its space complexity is `O(n)`.
+*   **`dp` Table:** The `dp` table is a 2D vector of size `n x n`, which takes `O(n^2)` space.
+*   **Other Variables:** The other variables occupy constant space `O(1)`.
+*   **Overall:** The dominant factor is `dp`, so the space complexity is **O(n^2)**.
+
+**4. Dry Run (Example: `arr = [1, 2, 3, 5, 8]`)**
+
+|
+|
+|
+
+**After all iterations**
+
+*  The longest value will be 5 corresponding to the fibonacci like subsequence [1,2,3,5,8].
+
+**Final Result:** The function will return `5`.
+
+**Summary:**
+
+*   **Explanation:** The code finds the longest Fibonacci-like subsequence using a bottom-up dynamic programming approach, using a 2D DP table to store length of subsequences ending at different indices.
+*   **Time Complexity:** `O(n^2)`
+*   **Space Complexity:** `O(n^2)`
+*   **Dry Run:** The dry run shows how the DP table gets populated for a given example, leading to the correct result.
+
+This detailed ETSD provides a clear understanding of the algorithm, its resource usage, and its behavior through a step-by-step dry run. Let me know if you have any more questions!
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Method 2 (using set, w/o DP):
 ---
 
 ### Code:
