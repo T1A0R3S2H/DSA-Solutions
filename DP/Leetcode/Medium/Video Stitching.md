@@ -62,7 +62,59 @@ public:
     }
 };
 ```
+### Code (not need of dp.clear() when DP not as a global variable):
+```cpp
+class Solution {
+public:
+    int solveMem(int current_end, int time, vector<vector<int>>& clips, unordered_map<int, int>& dp) {
+        // Base case: agar time poora cover ho gaya
+        if (current_end >= time) {
+            return 0;
+        }
+        
+        // Agar result already memoized hai
+        if (dp.count(current_end)) {
+            return dp[current_end];
+        }
+        
+        int ans = INT_MAX - 1;
+        
+        // Har clip ko check karte hain jo current_end ko extend kar sakti hai
+        for (auto& clip : clips) {
+            if (clip[0] <= current_end) { // Clip ka start current_end ke pehle hai
+                if (clip[1] > current_end) { // Clip ka end current_end ke aage hai
+                    int next = solveMem(clip[1], time, clips, dp);
+                    
+                    // Agar valid solution mila toh minimum clips update karo
+                    if (next != INT_MAX - 1) {
+                        ans = min(ans, 1 + next);
+                    }
+                }
+            } else if (clip[0] > current_end) { // Clips ko sorted hone ke karan, aage wale sab useless hain
+                break;
+            }
+        }
+        
+        // Result memoize karke return karo
+        return dp[current_end] = ans;
+    }
 
+    int videoStitching(vector<vector<int>>& clips, int time) {
+        // Clips ko unke start time ke basis pe sort karo
+        sort(clips.begin(), clips.end());
+        
+        // Local memoization map
+        unordered_map<int, int> dp;
+        
+        // Solve shuru karo 0 se
+        int result = solveMem(0, time, clips, dp);
+        
+        // Agar result valid hai toh return karo, nahi toh -1
+        return (result >= INT_MAX - 1) ? -1 : result;
+    }
+};
+
+```
 ---
 
 ### Explanation  
