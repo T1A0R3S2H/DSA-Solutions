@@ -2,8 +2,121 @@
 Humein kuch video clips diye gaye hain jo ek sporting event ko represent karte hain. Har clip ka ek start aur end time hota hai. Humara goal hai ki minimum clips use kar ke poore time range `[0, time]` ko cover karen. Agar possible nahi hai, toh `-1` return karen.
 
 ---
+# Method 1 (DP)
+### Code  
+```cpp
+class Solution {
+public:
+    unordered_map<int, int> dp;
+    
+    int solveMem(int current_end, int time, vector<vector<int>>& clips) {
+        // Base case: agar time poora cover ho gaya
+        if (current_end >= time) {
+            return 0;
+        }
+        
+        // Agar result already memoized hai
+        if (dp.count(current_end)) {
+            return dp[current_end];
+        }
+        
+        int ans = INT_MAX - 1;
+        
+        // Har clip ko check karte hain jo current_end ko extend kar sakti hai
+        for (auto& clip : clips) {
+            if (clip[0] <= current_end) { // Clip ka start current_end ke pehle hai
+                if (clip[1] > current_end) { // Clip ka end current_end ke aage hai
+                    int next = solveMem(clip[1], time, clips);
+                    
+                    // Agar valid solution mila toh minimum clips update karo
+                    if (next != INT_MAX - 1) {
+                        ans = min(ans, 1 + next);
+                    }
+                }
+            } else if (clip[0] > current_end) { // Clips ko sorted hone ke karan, aage wale sab useless hain
+                break;
+            }
+        }
+        
+        // Result memoize karke return karo
+        return dp[current_end] = ans;
+    }
 
-# Method 1 (without DP)
+    int videoStitching(vector<vector<int>>& clips, int time) {
+        // Clips ko unke start time ke basis pe sort karo
+        sort(clips.begin(), clips.end());
+        
+        // Memoization map ko clear karo
+        dp.clear();
+        
+        // Solve shuru karo 0 se
+        int result = solveMem(0, time, clips);
+        
+        // Agar result valid hai toh return karo, nahi toh -1
+        if (result >= INT_MAX - 1) {
+            return -1;
+        } 
+        else {
+            return result;
+        }
+    }
+};
+```
+
+---
+
+### Explanation  
+- **Problem**: Hume `time` seconds takka poora sporting event cover karna hai, aur minimum clips find karni hain jo yeh kaam karein.
+- **Approach**:
+  1. **Sorting**: Clips ko start time ke basis pe sort karte hain.
+  2. **Recursive + Memoization Solution**:
+     - `solveMem(current_end, time, clips)`: Yeh function check karta hai ki kaun si clips ko use karke `current_end` takka coverage `time` tak extend karna hai.
+     - Har clip jo current coverage ko extend kar sakti hai, usko consider karte hain.
+  3. **Memoization**: Already computed states ko memoize karte hain taaki redundant calculations avoid ho.
+  4. **Base Case**: Agar `current_end >= time` ho gaya, iska matlab poora coverage mil chuki hai, toh return `0`.
+
+---
+
+### Time Complexity  
+1. **Sorting**: \(O(n \log n)\), jahan \(n\) = total clips.
+2. **Recursion**: Har state \(O(n)\) clips ko check karti hai. Total \(O(time)\) states.  
+   Total complexity: \(O(n \cdot time)\).
+
+---
+
+### Space Complexity  
+1. **Memoization Map**: \(O(time)\).
+2. **Recursion Stack**: \(O(time)\).  
+   Total space: \(O(time)\).
+
+---
+
+### Dry Run  
+**Input**:  
+`clips = [[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]], time = 10`  
+
+**Steps**:  
+1. Clips ko sort karte hain: `[[0,2],[1,5],[1,9],[4,6],[5,9],[8,10]]`.
+2. \(current\_end = 0\):
+   - Clip `[0,2]` ko lete hain. Call `solveMem(2, 10, clips)`.
+3. \(current\_end = 2\):
+   - Clip `[1,9]` ko lete hain. Call `solveMem(9, 10, clips)`.
+4. \(current\_end = 9\):
+   - Clip `[8,10]` ko lete hain. Call `solveMem(10, 10, clips)`.
+5. \(current\_end = 10\): Base case, return `0`.  
+**Result**: Minimum clips = `3` (`[0,2], [1,9], [8,10]`).
+
+---
+
+### Additional Points  
+- **Why `dp.count` Used**: `dp.count(current_end)` ka use isliye kiya gaya hai kyunki `unordered_map` ka default value `0` hota hai. Isse explicit initialization ki zarurat nahi padti.  
+- **INT_MAX - 1**: Overflow avoid karne ke liye.
+
+---
+
+
+
+# Method 2 (without DP)
 ### Code:
 
 ```cpp
